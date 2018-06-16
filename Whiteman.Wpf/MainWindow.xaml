@@ -6,10 +6,27 @@
         xmlns:local="clr-namespace:Walterlv.Whiteman"
         mc:Ignorable="d" Title="Whiteman" Width="800" Height="450"
         Background="#279EDA" Activated="OnActivated" Deactivated="OnDeactivated">
+    <Window.Template>
+        <ControlTemplate TargetType="Window">
+            <Border Padding="0 30 0 0">
+                <Grid Background="{TemplateBinding Background}">
+                    <Border Background="{TemplateBinding Background}"
+                            VerticalAlignment="Top" Height="29" Margin="0 -29 140 0">
+                        <TextBlock Foreground="White" Margin="16 0" VerticalAlignment="Center"
+                                   FontSize="12" Text="{TemplateBinding Title}" />
+                    </Border>
+                    <ContentPresenter />
+                </Grid>
+            </Border>
+        </ControlTemplate>
+    </Window.Template>
     <WindowChrome.WindowChrome>
-        <WindowChrome />
+        <WindowChrome GlassFrameThickness="-1" NonClientFrameEdges="Left,Bottom,Right" />
     </WindowChrome.WindowChrome>
     <Grid>
         <local:MovingCircle x:Name="MovingCircle" />
+        <TextBlock Text="LowbihoMujoujo" Foreground="#145587"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontWeight="Bold" FontSize="64" />
     </Grid>
 </Window>
