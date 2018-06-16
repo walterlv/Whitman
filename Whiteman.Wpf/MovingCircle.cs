@@ -43,8 +43,8 @@ namespace Walterlv.Whiteman
 
             _innerData.FromCenter = _innerData.ToCenter;
             _innerData.ToCenter = new Point(
-                OffsetRandom(ActualWidth / 2, ActualWidth / 100),
-                OffsetRandom(ActualHeight / 2, ActualHeight / 100));
+                OffsetRandom(ActualWidth / 2, ActualWidth / 50),
+                OffsetRandom(ActualHeight / 2, ActualHeight / 50));
             _innerData.FromRadius = _innerData.ToRadius;
             _innerData.ToRadius = OffsetRandom((ActualWidth + ActualHeight) / 7, (ActualWidth + ActualHeight) / 100);
         }
