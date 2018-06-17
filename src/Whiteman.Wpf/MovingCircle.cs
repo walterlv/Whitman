@@ -12,7 +12,7 @@ namespace Walterlv.Whiteman
             _storyboard = new Storyboard();
             var doubleAnimation = new DoubleAnimation(0.0, 1.0, new Duration(TimeSpan.FromSeconds(4)))
             {
-                EasingFunction = new ActionEasingFunction(UpdateFrame),
+                EasingFunction = new ActionEasingFunction(new CubicEase(), UpdateFrame),
             };
             Storyboard.SetTarget(doubleAnimation, this);
             Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath(AnimationProgressProperty.Name));
@@ -27,9 +27,11 @@ namespace Walterlv.Whiteman
         private bool _isLayouted;
         private readonly Storyboard _storyboard;
         private readonly Random _random = new Random((int) DateTimeOffset.UtcNow.Ticks);
-        private readonly Brush _outerCircleBrush = new SolidColorBrush(Colors.White) { Opacity = 0.5 };
-        private readonly Brush _innerCircleBrush = new SolidColorBrush(Colors.White);
+        private readonly Brush _outerCircleBrush = new SolidColorBrush(Colors.White) { Opacity = 0.33 };
+        private readonly Brush _middleCircleBrush = new SolidColorBrush(Colors.White) { Opacity = 0.5 };
+        private readonly Brush _innerCircleBrush = new SolidColorBrush(Colors.White) { Opacity = 0.67 };
         private readonly CircleAnimationData _outerData = new CircleAnimationData();
+        private readonly CircleAnimationData _middleData = new CircleAnimationData();
         private readonly CircleAnimationData _innerData = new CircleAnimationData();
 
         private void PrepareFrames()
@@ -41,12 +43,19 @@ namespace Walterlv.Whiteman
             _outerData.FromRadius = _outerData.ToRadius;
             _outerData.ToRadius = OffsetRandom((ActualWidth + ActualHeight) / 5, (ActualWidth + ActualHeight) / 100);
 
+            _middleData.FromCenter = _middleData.ToCenter;
+            _middleData.ToCenter = new Point(
+                OffsetRandom(ActualWidth / 2, ActualWidth / 40),
+                OffsetRandom(ActualHeight / 2, ActualHeight / 40));
+            _middleData.FromRadius = _middleData.ToRadius;
+            _middleData.ToRadius = OffsetRandom((ActualWidth + ActualHeight) / 6, (ActualWidth + ActualHeight) / 100);
+
             _innerData.FromCenter = _innerData.ToCenter;
             _innerData.ToCenter = new Point(
-                OffsetRandom(ActualWidth / 2, ActualWidth / 50),
-                OffsetRandom(ActualHeight / 2, ActualHeight / 50));
+                OffsetRandom(ActualWidth / 2, ActualWidth / 40),
+                OffsetRandom(ActualHeight / 2, ActualHeight / 40));
             _innerData.FromRadius = _innerData.ToRadius;
-            _innerData.ToRadius = OffsetRandom((ActualWidth + ActualHeight) / 7, (ActualWidth + ActualHeight) / 100);
+            _innerData.ToRadius = OffsetRandom((ActualWidth + ActualHeight) / 9, (ActualWidth + ActualHeight) / 100);
         }
 
         private void UpdateFrame(double time)
@@ -55,6 +64,11 @@ namespace Walterlv.Whiteman
                 Intermediate(_outerData.FromCenter.X, _outerData.ToCenter.X, time),
                 Intermediate(_outerData.FromCenter.Y, _outerData.ToCenter.Y, time));
             _outerData.Radius = Intermediate(_outerData.FromRadius, _outerData.ToRadius, time);
+
+            _middleData.Center = new Point(
+                Intermediate(_middleData.FromCenter.X, _middleData.ToCenter.X, time),
+                Intermediate(_middleData.FromCenter.Y, _middleData.ToCenter.Y, time));
+            _middleData.Radius = Intermediate(_middleData.FromRadius, _middleData.ToRadius, time);
 
             _innerData.Center = new Point(
                 Intermediate(_innerData.FromCenter.X, _innerData.ToCenter.X, time),
@@ -70,9 +84,11 @@ namespace Walterlv.Whiteman
             {
                 _isLayouted = true;
                 _outerData.ToCenter = new Point(finalSize.Width / 2, finalSize.Height / 2);
+                _middleData.ToCenter = new Point(finalSize.Width / 2, finalSize.Height / 2);
                 _innerData.ToCenter = new Point(finalSize.Width / 2, finalSize.Height / 2);
                 _outerData.ToRadius = (finalSize.Width + finalSize.Height) / 5;
-                _innerData.ToRadius = (finalSize.Width + finalSize.Height) / 7;
+                _middleData.ToRadius = (finalSize.Width + finalSize.Height) / 6;
+                _innerData.ToRadius = (finalSize.Width + finalSize.Height) / 9;
                 Dispatcher.InvokeAsync(() =>
                 {
                     PrepareFrames();
@@ -86,6 +102,7 @@ namespace Walterlv.Whiteman
         protected override void OnRender(DrawingContext dc)
         {
             dc.DrawEllipse(_outerCircleBrush, null, _outerData.Center, _outerData.Radius, _outerData.Radius);
+            dc.DrawEllipse(_middleCircleBrush, null, _middleData.Center, _middleData.Radius, _middleData.Radius);
             dc.DrawEllipse(_innerCircleBrush, null, _innerData.Center, _innerData.Radius, _innerData.Radius);
         }
 
@@ -139,22 +156,29 @@ namespace Walterlv.Whiteman
 
         private class ActionEasingFunction : Freezable, IEasingFunction
         {
+            private readonly IEasingFunction _innerEasingFunction;
             private readonly Action<double> _onEase;
 
-            public ActionEasingFunction(Action<double> onEase)
+            public ActionEasingFunction(IEasingFunction innerEasingFunction, Action<double> onEase)
             {
+                _innerEasingFunction = innerEasingFunction;
                 _onEase = onEase;
             }
 
             protected override Freezable CreateInstanceCore()
             {
-                return new ActionEasingFunction(_onEase);
+                if (_innerEasingFunction is Freezable freezable)
+                {
+                    return new ActionEasingFunction((IEasingFunction) freezable.Clone(), _onEase);
+                }
+                return new ActionEasingFunction(_innerEasingFunction, _onEase);
             }
 
             public double Ease(double normalizedTime)
             {
-                _onEase?.Invoke(normalizedTime);
-                return normalizedTime;
+                var time = _innerEasingFunction.Ease(normalizedTime);
+                _onEase?.Invoke(time);
+                return time;
             }
         }
     }
