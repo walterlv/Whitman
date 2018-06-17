@@ -12,7 +12,7 @@
             <Border Padding="0 30 0 0">
                 <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
                     <Border Background="{TemplateBinding Background}"
-                            VerticalAlignment="Top" Height="29" Margin="0 -29 140 0">
+                            VerticalAlignment="Top" Height="30" Margin="0 -29 140 0">
                         <TextBlock Foreground="White" Margin="16 0" VerticalAlignment="Center"
                                    FontSize="12" Text="{TemplateBinding Title}" />
                     </Border>
