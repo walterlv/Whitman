@@ -52,5 +52,11 @@ namespace Walterlv.Whiteman
         }
 
         private readonly RandomIdentifier _randomIdentifier = new RandomIdentifier();
+
+        private void WordCount_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            var value = (int) e.NewValue;
+            _randomIdentifier.WordCount = value;
+        }
     }
 }

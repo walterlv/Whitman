@@ -40,5 +40,9 @@
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        FontWeight="Bold" FontSize="64" />
         </Viewbox>
+        <Slider Margin="16 8" VerticalAlignment="Bottom"
+                Maximum="5" SmallChange="1" Value="2" TickPlacement="BottomRight"
+                ValueChanged="WordCount_ValueChanged"
+                IsMoveToPointEnabled="True" IsSnapToTickEnabled="True" AutoToolTipPlacement="BottomRight" />
     </Grid>
 </Window>

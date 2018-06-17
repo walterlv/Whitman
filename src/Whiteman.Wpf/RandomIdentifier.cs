@@ -7,12 +7,12 @@ namespace Walterlv.Whiteman
 {
     public class RandomIdentifier
     {
-        private readonly Random _random = new Random();
+        public int WordCount { get; set; } = 2;
 
         public string Generate(bool pascal)
         {
             var builder = new StringBuilder();
-            var wordCount = _random.Next(2, 4);
+            var wordCount = WordCount <= 0 ? _random.Next(2, 5) : WordCount;
             for (var i = 0; i < wordCount; i++)
             {
                 var syllableCount = 4 - (int)Math.Sqrt(_random.Next(0, 16));
@@ -32,6 +32,8 @@ namespace Walterlv.Whiteman
 
             return builder.ToString();
         }
+
+        private readonly Random _random = new Random();
 
         private static readonly List<string> Consonants = new List<string>
         {
