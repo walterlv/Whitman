@@ -25,6 +25,7 @@ namespace Walterlv.Whiteman
         }
 
         private bool _isLayouted;
+        private Size _lastRenderSize;
         private readonly Storyboard _storyboard;
         private readonly Random _random = new Random((int) DateTimeOffset.UtcNow.Ticks);
         private readonly Brush _outerCircleBrush = new SolidColorBrush(Colors.White) { Opacity = 0.33 };
@@ -36,26 +37,29 @@ namespace Walterlv.Whiteman
 
         private void PrepareFrames()
         {
+            var width = _lastRenderSize.Width;
+            var height = _lastRenderSize.Height;
+
             _outerData.FromCenter = _outerData.ToCenter;
             _outerData.ToCenter = new Point(
-                OffsetRandom(ActualWidth / 2, ActualWidth / 30),
-                OffsetRandom(ActualHeight / 2, ActualHeight / 30));
+                OffsetRandom(width / 2, width / 30),
+                OffsetRandom(height / 2, height / 30));
             _outerData.FromRadius = _outerData.ToRadius;
-            _outerData.ToRadius = OffsetRandom((ActualWidth + ActualHeight) / 5, (ActualWidth + ActualHeight) / 100);
+            _outerData.ToRadius = OffsetRandom((width + height) / 5, (width + height) / 100);
 
             _middleData.FromCenter = _middleData.ToCenter;
             _middleData.ToCenter = new Point(
-                OffsetRandom(ActualWidth / 2, ActualWidth / 40),
-                OffsetRandom(ActualHeight / 2, ActualHeight / 40));
+                OffsetRandom(width / 2, width / 40),
+                OffsetRandom(height / 2, height / 40));
             _middleData.FromRadius = _middleData.ToRadius;
-            _middleData.ToRadius = OffsetRandom((ActualWidth + ActualHeight) / 6, (ActualWidth + ActualHeight) / 100);
+            _middleData.ToRadius = OffsetRandom((width + height) / 6, (width + height) / 100);
 
             _innerData.FromCenter = _innerData.ToCenter;
             _innerData.ToCenter = new Point(
-                OffsetRandom(ActualWidth / 2, ActualWidth / 40),
-                OffsetRandom(ActualHeight / 2, ActualHeight / 40));
+                OffsetRandom(width / 2, width / 40),
+                OffsetRandom(height / 2, height / 40));
             _innerData.FromRadius = _innerData.ToRadius;
-            _innerData.ToRadius = OffsetRandom((ActualWidth + ActualHeight) / 9, (ActualWidth + ActualHeight) / 100);
+            _innerData.ToRadius = OffsetRandom((width + height) / 9, (width + height) / 100);
         }
 
         private void UpdateFrame(double time)
@@ -89,11 +93,14 @@ namespace Walterlv.Whiteman
                 _outerData.ToRadius = (finalSize.Width + finalSize.Height) / 5;
                 _middleData.ToRadius = (finalSize.Width + finalSize.Height) / 6;
                 _innerData.ToRadius = (finalSize.Width + finalSize.Height) / 9;
-                Dispatcher.InvokeAsync(() =>
-                {
-                    PrepareFrames();
-                    _storyboard.Begin(this, true);
-                });
+            }
+
+            if (finalSize != _lastRenderSize)
+            {
+                _lastRenderSize = finalSize;
+                PrepareFrames();
+                _storyboard.Stop(this);
+                _storyboard.Begin(this, true);
             }
 
             return base.ArrangeOverride(finalSize);
