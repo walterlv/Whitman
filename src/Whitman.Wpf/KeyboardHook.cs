@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 
-namespace Walterlv.Whiteman
+namespace Walterlv.Whitman
 {
     internal class KeyboardHook
     {

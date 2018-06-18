@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Whiteman")]
+[assembly: AssemblyTitle("Whitman")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Whiteman")]
+[assembly: AssemblyProduct("Whitman")]
 [assembly: AssemblyCopyright("Copyright © walterlv 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Walterlv.Whiteman
+namespace Walterlv.Whitman
 {
     public partial class MainWindow : Window
     {

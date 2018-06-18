@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Walterlv.Whiteman
+namespace Walterlv.Whitman
 {
     public partial class App : Application
     {

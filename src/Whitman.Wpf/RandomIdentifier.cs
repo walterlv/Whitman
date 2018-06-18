@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace Walterlv.Whiteman
+namespace Walterlv.Whitman
 {
     public class RandomIdentifier
     {

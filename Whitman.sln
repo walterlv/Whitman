@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whiteman.Core", "src\Whiteman.Core\Whiteman.Core.csproj", "{1A24CD67-9C68-4ACF-B25C-ADD267956A06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whitman.Core", "src\Whitman.Core\Whitman.Core.csproj", "{1A24CD67-9C68-4ACF-B25C-ADD267956A06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whiteman.Wpf", "src\Whiteman.Wpf\Whiteman.Wpf.csproj", "{46FFF0A2-3D80-40CA-A268-395E9D963F6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whitman.Wpf", "src\Whitman.Wpf\Whitman.Wpf.csproj", "{46FFF0A2-3D80-40CA-A268-395E9D963F6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{46FFF0A2-3D80-40CA-A268-395E9D963F6C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Walterlv.Whiteman</RootNamespace>
-    <AssemblyName>Whiteman</AssemblyName>
+    <RootNamespace>Walterlv.Whitman</RootNamespace>
+    <AssemblyName>Whitman</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
