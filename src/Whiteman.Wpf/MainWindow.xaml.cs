@@ -19,6 +19,7 @@ namespace Walterlv.Whiteman
             MouseLeftButtonDown += (s, e) => Generate(true, false);
             MouseRightButtonDown += (s, e) => Generate(false, false);
 
+            WordCountSlider.Opacity = 0.0;
             UpdateCircles(0);
             Generate(true, false);
         }
@@ -51,6 +52,24 @@ namespace Walterlv.Whiteman
             {
                 circle.IsAnimationEnabled = false;
             }
+
+            WordCountSlider.Opacity = 0.0;
+        }
+
+        private void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            var position = e.GetPosition(WordCountSlider);
+            var x = position.X > 0 && position.X < WordCountSlider.ActualWidth
+                ? 0
+                : Math.Min(Math.Abs(position.X), Math.Abs(position.X - WordCountSlider.ActualWidth));
+            var y = position.Y > 0 && position.Y < WordCountSlider.ActualHeight
+                ? 0
+                : Math.Min(Math.Abs(position.Y), Math.Abs(position.Y - WordCountSlider.ActualHeight));
+            var distance = Math.Sqrt(x * x + y * y);
+            var opacity = (100 - distance) / 100;
+            opacity = opacity < 0 ? 0 : opacity;
+            opacity = opacity > 1 ? 1 : opacity;
+            WordCountSlider.Opacity = opacity;
         }
 
         private readonly KeyboardHook _keyboardHook;
