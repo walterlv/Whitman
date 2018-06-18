@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Walterlv.Whiteman"
         mc:Ignorable="d" Title="Whiteman" Width="800" Height="450"
-        Background="#279EDA" Activated="OnActivated" Deactivated="OnDeactivated"
-        MouseLeftButtonDown="OnMouseLeftButtonDown" MouseRightButtonDown="OnMouseRightButtonDown">
+        Background="#279EDA" Activated="OnActivated" Deactivated="OnDeactivated">
     <Window.Template>
         <ControlTemplate TargetType="Window">
             <Border Padding="0 30 0 0">
@@ -32,8 +31,7 @@
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="-1" NonClientFrameEdges="Left,Bottom,Right" />
     </WindowChrome.WindowChrome>
-    <Grid>
-        <local:MovingCircle x:Name="MovingCircle" />
+    <Grid x:Name="RootPanel">
         <Viewbox StretchDirection="DownOnly">
             <TextBlock x:Name="OutputTextBlock" Margin="64"
                        Text="LowbihoMujoujo" Foreground="#145587"

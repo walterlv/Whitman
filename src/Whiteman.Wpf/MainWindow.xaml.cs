@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -10,53 +11,91 @@ namespace Walterlv.Whiteman
         {
             InitializeComponent();
 
-            var keyboardHook = new KeyboardHook();
-            keyboardHook.Start();
-            Application.Current.Exit += (s, e) => keyboardHook.Stop();
-            keyboardHook.Ctrl += (s, e) =>
-            {
-                var text = _randomIdentifier.Generate(false);
-                OutputTextBlock.Text = text;
-                keyboardHook.Send(text);
-            };
-            keyboardHook.CtrlShift += (s, e) =>
-            {
-                var text = _randomIdentifier.Generate(true);
-                OutputTextBlock.Text = text;
-                keyboardHook.Send(text);
-            };
+            _keyboardHook = new KeyboardHook();
+            _keyboardHook.Start();
+            Application.Current.Exit += (s, e) => _keyboardHook.Stop();
+            _keyboardHook.CtrlShift += (s, e) => Generate(true, true);
+            _keyboardHook.Ctrl += (s, e) => Generate(false, true);
+            MouseLeftButtonDown += (s, e) => Generate(true, false);
+            MouseRightButtonDown += (s, e) => Generate(false, false);
+
+            UpdateCircles(0);
+            Generate(true, false);
         }
 
-        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Generate(bool pascal = true, bool write = false)
         {
-            var text = _randomIdentifier.Generate(true);
+            var text = _randomIdentifier.Generate(pascal);
             OutputTextBlock.Text = text;
-            Clipboard.SetData(DataFormats.Text, text);
-        }
-
-        private void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var text = _randomIdentifier.Generate(false);
-            OutputTextBlock.Text = text;
-            Clipboard.SetData(DataFormats.Text, text);
+            if (write)
+            {
+                _keyboardHook.Send(text);
+            }
+            else
+            {
+                Clipboard.SetData(DataFormats.Text, text);
+            }
         }
 
         private void OnActivated(object sender, EventArgs e)
         {
-            MovingCircle.IsAnimationEnabled = true;
+            foreach (var circle in RootPanel.Children.OfType<MovingCircle>())
+            {
+                circle.IsAnimationEnabled = true;
+            }
         }
 
         private void OnDeactivated(object sender, EventArgs e)
         {
-            MovingCircle.IsAnimationEnabled = false;
+            foreach (var circle in RootPanel.Children.OfType<MovingCircle>())
+            {
+                circle.IsAnimationEnabled = false;
+            }
         }
+
+        private readonly KeyboardHook _keyboardHook;
 
         private readonly RandomIdentifier _randomIdentifier = new RandomIdentifier();
 
         private void WordCount_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            var value = (int) e.NewValue;
-            _randomIdentifier.WordCount = value;
+            UpdateCircles((int) e.NewValue);
+            Generate(true, false);
+        }
+
+        private void UpdateCircles(int count)
+        {
+            var oldValue = RootPanel.Children.OfType<MovingCircle>().Count();
+            var newValue = count;
+            newValue = newValue <= 0 ? 3 : newValue;
+            _randomIdentifier.WordCount = newValue;
+
+            if (newValue < oldValue)
+            {
+                for (var i = newValue; i < oldValue; i++)
+                {
+                    RootPanel.Children.RemoveAt(newValue);
+                }
+            }
+            else if (newValue > oldValue)
+            {
+                for (var i = oldValue; i < newValue; i++)
+                {
+                    RootPanel.Children.Insert(oldValue, new MovingCircle());
+                }
+            }
+
+            var circles = RootPanel.Children.OfType<MovingCircle>().ToList();
+            for (var i = 0; i < circles.Count; i++)
+            {
+                var circle = circles[i];
+                circle.BrushOpacity = (i + 1.0) / circles.Count / 2;
+                circle.CenterRange = 1.0 / (15 + i * 2.5);
+                circle.RadiusBaseRange = 1.0 / (2.5 + i);
+                circle.RadiusRange = 1.0 / 50.0;
+            }
+
+            circles[circles.Count - 1].BrushOpacity = 1.0;
         }
     }
 }
