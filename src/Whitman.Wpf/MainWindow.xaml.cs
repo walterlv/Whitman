@@ -86,8 +86,8 @@ namespace Walterlv.Whitman
         {
             var oldValue = RootPanel.Children.OfType<MovingCircle>().Count();
             var newValue = count;
-            newValue = newValue <= 0 ? 3 : newValue;
             _randomIdentifier.WordCount = newValue;
+            newValue = newValue <= 0 ? 3 : newValue;
 
             if (newValue < oldValue)
             {

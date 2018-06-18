@@ -12,10 +12,11 @@ namespace Walterlv.Whitman
         public string Generate(bool pascal)
         {
             var builder = new StringBuilder();
-            var wordCount = WordCount <= 0 ? _random.Next(2, 5) : WordCount;
+            var wordCount = WordCount <= 0 ? 4 - (int) Math.Sqrt(_random.Next(0, 9)) : WordCount;
             for (var i = 0; i < wordCount; i++)
             {
-                var syllableCount = 4 - (int)Math.Sqrt(_random.Next(0, 16));
+                var syllableCount = 4 - (int) Math.Sqrt(_random.Next(0, 16));
+                syllableCount = SyllableMapping[syllableCount];
                 for (var j = 0; j < syllableCount; j++)
                 {
                     var consonant = Consonants[_random.Next(Consonants.Count)];
@@ -34,6 +35,14 @@ namespace Walterlv.Whitman
         }
 
         private readonly Random _random = new Random();
+
+        private static readonly Dictionary<int, int> SyllableMapping = new Dictionary<int, int>
+        {
+            {1, 2},
+            {2, 3},
+            {3, 4},
+            {4, 1},
+        };
 
         private static readonly List<string> Consonants = new List<string>
         {
