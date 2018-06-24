@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 
@@ -21,7 +22,7 @@ namespace Walterlv.Whitman
 
             WordCountSlider.Opacity = 0.0;
             UpdateCircles(0);
-            Generate(true, false);
+            //Dispatcher.InvokeAsync(() => Generate(true, false));
         }
 
         private void Generate(bool pascal = true, bool write = false)
@@ -34,7 +35,13 @@ namespace Walterlv.Whitman
             }
             else
             {
-                Clipboard.SetData(DataFormats.Text, text);
+                try
+                {
+                    Clipboard.SetData(DataFormats.Text, text);
+                }
+                catch (COMException ex)
+                {
+                }
             }
         }
 
