@@ -7,6 +7,9 @@
         mc:Ignorable="d" Title="Whitman" Width="800" Height="450"
         Background="#279EDA" Activated="OnActivated" Deactivated="OnDeactivated"
         MouseMove="OnMouseMove" Icon="App.ico">
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0,64,0,0" NonClientFrameEdges="Left,Bottom,Right" />
+    </WindowChrome.WindowChrome>
     <Window.Template>
         <ControlTemplate TargetType="Window">
             <Border Padding="0 30 0 0">
@@ -29,9 +32,6 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </Window.Template>
-    <WindowChrome.WindowChrome>
-        <WindowChrome GlassFrameThickness="-1" NonClientFrameEdges="Left,Bottom,Right" />
-    </WindowChrome.WindowChrome>
     <Grid x:Name="RootPanel">
         <Viewbox StretchDirection="DownOnly">
             <TextBlock x:Name="OutputTextBlock" Margin="64"
