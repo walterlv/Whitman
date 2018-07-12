@@ -8,7 +8,7 @@
         Background="#279EDA" Activated="OnActivated" Deactivated="OnDeactivated"
         MouseMove="OnMouseMove" Icon="App.ico">
     <WindowChrome.WindowChrome>
-        <WindowChrome GlassFrameThickness="0,64,0,0" NonClientFrameEdges="Left,Bottom,Right" />
+        <WindowChrome GlassFrameThickness="0 64 0 0" NonClientFrameEdges="Left,Bottom,Right" />
     </WindowChrome.WindowChrome>
     <Window.Template>
         <ControlTemplate TargetType="Window">
@@ -26,16 +26,13 @@
                 <Trigger Property="WindowState" Value="Maximized">
                     <Setter TargetName="RootGrid" Property="Margin" Value="6" />
                 </Trigger>
-                <Trigger Property="WindowState" Value="Normal">
-                    <Setter TargetName="RootGrid" Property="Margin" Value="0" />
-                </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </Window.Template>
     <Grid x:Name="RootPanel">
         <Viewbox StretchDirection="DownOnly">
             <TextBlock x:Name="OutputTextBlock" Margin="64"
-                       Text="LowbihoMujoujo" Foreground="#145587"
+                       Text="walterlv.github.io" Foreground="#145587"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        FontWeight="Bold" FontSize="64" />
         </Viewbox>
