@@ -143,7 +143,7 @@
                                     </Style>
                                 </FrameworkElement.Resources>
                                 <TextBlock x:Name="TitleTextBlock"
-                                           Foreground="White" Margin="16 0 156 0" VerticalAlignment="Center"
+                                           Foreground="White" Margin="12 0 156 0" VerticalAlignment="Center"
                                            FontSize="12" Text="{TemplateBinding Title}" />
                                 <StackPanel x:Name="TitleBarButtonPanel" Orientation="Horizontal"
                                             Margin="0 -1 0 0" HorizontalAlignment="Right">
