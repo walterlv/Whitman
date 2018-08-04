@@ -1,10 +1,21 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Walterlv.Whitman.Themes
 {
     public partial class UniversalWindowStyle
     {
+        public static readonly DependencyProperty TitleBarProperty = DependencyProperty.RegisterAttached(
+            "TitleBar", typeof(UniversalTitleBar), typeof(UniversalWindowStyle),
+            new PropertyMetadata(null));
+
+        public static UniversalTitleBar GetTitleBar(DependencyObject element)
+            => (UniversalTitleBar)element.GetValue(TitleBarProperty);
+
+        public static void SetTitleBar(DependencyObject element, UniversalTitleBar value)
+            => element.SetValue(TitleBarProperty, value);
+
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
             => SetWindowState(sender, WindowState.Minimized);
 
@@ -26,5 +37,11 @@ namespace Walterlv.Whitman.Themes
                 window.WindowState = state;
             }
         }
+    }
+
+    public class UniversalTitleBar
+    {
+        public Color ForegroundColor { get; set; }
+        public Color InactiveForegroundColor { get; set; }
     }
 }
