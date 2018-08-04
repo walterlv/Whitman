@@ -1,42 +1,92 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Walterlv.Whitman.Themes
 {
-    public partial class UniversalWindowStyle
+    public class UniversalWindowStyle
     {
         public static readonly DependencyProperty TitleBarProperty = DependencyProperty.RegisterAttached(
             "TitleBar", typeof(UniversalTitleBar), typeof(UniversalWindowStyle),
-            new PropertyMetadata(null));
+            new PropertyMetadata(new UniversalTitleBar(), OnTitleBarChanged));
 
         public static UniversalTitleBar GetTitleBar(DependencyObject element)
-            => (UniversalTitleBar)element.GetValue(TitleBarProperty);
+            => (UniversalTitleBar) element.GetValue(TitleBarProperty);
 
         public static void SetTitleBar(DependencyObject element, UniversalTitleBar value)
             => element.SetValue(TitleBarProperty, value);
 
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
-            => SetWindowState(sender, WindowState.Minimized);
+        public static readonly DependencyProperty TitleBarButtonStateProperty = DependencyProperty.RegisterAttached(
+            "TitleBarButtonState", typeof(WindowState?), typeof(UniversalWindowStyle),
+            new PropertyMetadata(null, OnButtonStateChanged));
 
-        private void RestoreButton_Click(object sender, RoutedEventArgs e)
-            => SetWindowState(sender, WindowState.Normal);
+        public static WindowState? GetTitleBarButtonState(DependencyObject element)
+            => (WindowState?) element.GetValue(TitleBarButtonStateProperty);
 
-        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
-            => SetWindowState(sender, WindowState.Maximized);
+        public static void SetTitleBarButtonState(DependencyObject element, WindowState? value)
+            => element.SetValue(TitleBarButtonStateProperty, value);
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-            => Window.GetWindow((DependencyObject) sender)?.Close();
+        public static readonly DependencyProperty IsTitleBarCloseButtonProperty = DependencyProperty.RegisterAttached(
+            "IsTitleBarCloseButton", typeof(bool), typeof(UniversalWindowStyle),
+            new PropertyMetadata(false, OnIsCloseButtonChanged));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void SetWindowState(object sender, WindowState state)
+        public static bool GetIsTitleBarCloseButton(DependencyObject element)
+            => (bool) element.GetValue(IsTitleBarCloseButtonProperty);
+
+        public static void SetIsTitleBarCloseButton(DependencyObject element, bool value)
+            => element.SetValue(IsTitleBarCloseButtonProperty, value);
+
+        private static void OnTitleBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var window = Window.GetWindow((DependencyObject) sender);
-            if (window != null)
+            if (e.NewValue is null) throw new NotSupportedException("TitleBar property should not be null.");
+        }
+
+        private static void OnButtonStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var button = (Button) d;
+
+            if (e.OldValue is WindowState)
             {
-                window.WindowState = state;
+                button.Click -= StateButton_Click;
+            }
+
+            if (e.NewValue is WindowState)
+            {
+                button.Click -= StateButton_Click;
+                button.Click += StateButton_Click;
             }
         }
+
+        private static void OnIsCloseButtonChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var button = (Button) d;
+
+            if (e.OldValue is true)
+            {
+                button.Click -= CloseButton_Click;
+            }
+
+            if (e.NewValue is true)
+            {
+                button.Click -= CloseButton_Click;
+                button.Click += CloseButton_Click;
+            }
+        }
+
+        private static void StateButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (DependencyObject) sender;
+            var window = Window.GetWindow(button);
+            var state = GetTitleBarButtonState(button);
+            if (window != null && state != null)
+            {
+                window.WindowState = state.Value;
+            }
+        }
+
+        private static void CloseButton_Click(object sender, RoutedEventArgs e)
+            => Window.GetWindow((DependencyObject) sender)?.Close();
     }
 
     public class UniversalTitleBar
