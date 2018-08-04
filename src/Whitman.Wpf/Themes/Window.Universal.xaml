@@ -47,12 +47,9 @@
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
-                                                    <Grid Name="TemplateRoot" Background="{TemplateBinding Background}">
-                                                        <Border Name="OverBorder" Background="Transparent"
-                                                                BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" />
-                                                        <ContentPresenter Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}"
-                                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                                    </Grid>
+                                                    <Border Name="OverBorder" BorderThickness="0 1 0 0" Background="Transparent">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                    </Border>
                                                     <ControlTemplate.Triggers>
                                                         <MultiTrigger>
                                                             <!-- When the pointer is over the button. -->
