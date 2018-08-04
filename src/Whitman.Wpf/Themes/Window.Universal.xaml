@@ -10,10 +10,12 @@
             <StreamGeometry x:Key="Icon.Geometry.CloseWindow">M 3,3 L 3,4 L 4,4 L 4,3 Z M 5,5 L 5,6 L 6,6 L 6,5 Z M 7,7 L 7,9 L 9,9 L 9,7 Z M 9,9 L 9,10 L 10,10 L 10,9 Z M 11,11 L 11,12 L 12,12 L 12,11 Z M 4,4 L 4,5 L 5,5 L 5,4 Z M 6,6 L 6,7 L 7,7 L 7,6 Z M 12,3 L 12,4 L 13,4 L 13,3 Z M 10,10 L 10,11 L 11,11 L 11,10 Z M 12,12 L 12,13 L 13,13 L 13,12 Z M 11,4 L 11,5 L 12,5 L 12,4 Z M 10,5 L 10,6 L 11,6 L 11,5 Z M 9,6 L 9,7 L 10,7 L 10,6 Z M 6,9 L 6,10 L 7,10 L 7,9 Z M 5,10 L 5,11 L 6,11 L 6,10 Z M 4,11 L 4,12 L 5,12 L 5,11 Z M 3,12 L 3,13 L 4,13 L 4,12 Z</StreamGeometry>
             <SolidColorBrush x:Key="Brush.TitleBar.Foreground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ForegroundColor, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
             <SolidColorBrush x:Key="Brush.TitleBar.InactiveForeground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).InactiveForegroundColor, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+            <SolidColorBrush x:Key="Brush.TitleBar.ButtonHoverBackground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ButtonHoverBackground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+            <SolidColorBrush x:Key="Brush.TitleBar.ButtonPressedBackground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ButtonPressedBackground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
         </Style.Resources>
         <Setter Property="themes:UniversalWindowStyle.TitleBar">
             <Setter.Value>
-                <themes:UniversalTitleBar ForegroundColor="Black" InactiveForegroundColor="#999999" />
+                <themes:UniversalTitleBar />
             </Setter.Value>
         </Setter>
         <Setter Property="WindowChrome.WindowChrome">
@@ -47,110 +49,38 @@
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
-                                                    <Border Name="OverBorder" BorderThickness="0 1 0 0" Background="Transparent">
+                                                    <Border Name="OverBorder" BorderThickness="0 1 0 0" Background="{TemplateBinding Background}">
                                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                     </Border>
-                                                    <ControlTemplate.Triggers>
-                                                        <MultiTrigger>
-                                                            <!-- When the pointer is over the button. -->
-                                                            <MultiTrigger.Conditions>
-                                                                <Condition Property="IsMouseOver" Value="True" />
-                                                                <Condition Property="IsStylusOver" Value="False" />
-                                                            </MultiTrigger.Conditions>
-                                                            <MultiTrigger.EnterActions>
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <ColorAnimation Storyboard.TargetName="OverBorder"
-                                                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                                                        Duration="0:0:0.2" To="#2FFFFFFF" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </MultiTrigger.EnterActions>
-                                                            <MultiTrigger.ExitActions>
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <ColorAnimation Storyboard.TargetName="OverBorder"
-                                                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                                                        Duration="0:0:0.6" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </MultiTrigger.ExitActions>
-                                                        </MultiTrigger>
-                                                        <!-- When the pointer is pressed. -->
-                                                        <MultiTrigger>
-                                                            <MultiTrigger.Conditions>
-                                                                <Condition Property="IsPressed" Value="True" />
-                                                                <Condition Property="AreAnyTouchesOver" Value="False" />
-                                                            </MultiTrigger.Conditions>
-                                                            <MultiTrigger.EnterActions>
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <ColorAnimation Storyboard.TargetName="OverBorder"
-                                                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                                                        Duration="0:0:0.05" To="#4F000000" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </MultiTrigger.EnterActions>
-                                                            <MultiTrigger.ExitActions>
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <ColorAnimation Storyboard.TargetName="OverBorder"
-                                                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                                                        Duration="0:0:0.3" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </MultiTrigger.ExitActions>
-                                                        </MultiTrigger>
-                                                        <!-- When the touch device is pressed. -->
-                                                        <MultiTrigger>
-                                                            <MultiTrigger.Conditions>
-                                                                <Condition Property="IsPressed" Value="True" />
-                                                                <Condition Property="AreAnyTouchesOver" Value="True" />
-                                                            </MultiTrigger.Conditions>
-                                                            <MultiTrigger.EnterActions>
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <ColorAnimation Storyboard.TargetName="OverBorder"
-                                                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                                                        Duration="0:0:0" To="#7F000000" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </MultiTrigger.EnterActions>
-                                                            <MultiTrigger.ExitActions>
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <ColorAnimation Storyboard.TargetName="OverBorder"
-                                                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                                                        Duration="0:0:1" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </MultiTrigger.ExitActions>
-                                                        </MultiTrigger>
-                                                        <!-- When the button is disabled. -->
-                                                        <Trigger Property="IsEnabled" Value="False">
-                                                            <Trigger.EnterActions>
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <DoubleAnimation Storyboard.TargetName="TemplateRoot"
-                                                                                         Storyboard.TargetProperty="Opacity"
-                                                                                         Duration="0:0:0.1" To="0.33" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </Trigger.EnterActions>
-                                                            <Trigger.ExitActions>
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <DoubleAnimation Storyboard.TargetName="TemplateRoot"
-                                                                                         Storyboard.TargetProperty="Opacity"
-                                                                                         Duration="0:0:0.3" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </Trigger.ExitActions>
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
+                                        <Style.Triggers>
+                                            <MultiTrigger>
+                                                <!-- When the pointer is over the button. -->
+                                                <MultiTrigger.Conditions>
+                                                    <Condition Property="IsMouseOver" Value="True" />
+                                                    <Condition Property="IsStylusOver" Value="False" />
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Background" Value="{StaticResource Brush.TitleBar.ButtonHoverBackground}" />
+                                            </MultiTrigger>
+                                            <!-- When the pointer is pressed. -->
+                                            <MultiTrigger>
+                                                <MultiTrigger.Conditions>
+                                                    <Condition Property="IsPressed" Value="True" />
+                                                    <Condition Property="AreAnyTouchesOver" Value="False" />
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Background" Value="{StaticResource Brush.TitleBar.ButtonPressedBackground}" />
+                                            </MultiTrigger>
+                                            <!-- When the touch device is pressed. -->
+                                            <MultiTrigger>
+                                                <MultiTrigger.Conditions>
+                                                    <Condition Property="IsPressed" Value="True" />
+                                                    <Condition Property="AreAnyTouchesOver" Value="True" />
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Background" Value="{StaticResource Brush.TitleBar.ButtonPressedBackground}" />
+                                            </MultiTrigger>
+                                        </Style.Triggers>
                                     </Style>
                                 </FrameworkElement.Resources>
                                 <TextBlock x:Name="TitleTextBlock" FontSize="12" Text="{TemplateBinding Title}"
