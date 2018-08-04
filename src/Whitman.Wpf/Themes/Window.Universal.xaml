@@ -18,7 +18,7 @@
                 <ControlTemplate TargetType="Window">
                     <Border Padding="4 1 4 4">
                         <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
-                            <Grid VerticalAlignment="Top" Height="31">
+                            <Grid x:Name="TitleBarPanel" VerticalAlignment="Top" Height="31">
                                 <FrameworkElement.Resources>
                                     <Style TargetType="{x:Type Button}">
                                         <Setter Property="Width" Value="46"/>
@@ -145,8 +145,8 @@
                                 <TextBlock x:Name="TitleTextBlock"
                                            Foreground="White" Margin="16 0 156 0" VerticalAlignment="Center"
                                            FontSize="12" Text="{TemplateBinding Title}" />
-                                <StackPanel Name="CaptionButtonPanel" Orientation="Horizontal"
-                                            HorizontalAlignment="Right">
+                                <StackPanel x:Name="TitleBarButtonPanel" Orientation="Horizontal"
+                                            Margin="0 -1 0 0" HorizontalAlignment="Right">
                                     <Button x:Name="MinimizeButton" Click="MinimizeButton_Click">
                                         <Button.Content>
                                             <Path Width="16" Height="16" SnapsToDevicePixels="True"
@@ -181,6 +181,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="RootGrid" Property="Margin" Value="4 7 4 4" />
+                            <Setter TargetName="TitleBarPanel" Property="Height" Value="32" />
                             <Setter TargetName="MaximizeButton" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                         <Trigger Property="WindowState" Value="Normal">
