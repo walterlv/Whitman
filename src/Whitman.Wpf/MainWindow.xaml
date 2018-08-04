@@ -7,45 +7,10 @@
         xmlns:shell="clr-namespace:Walterlv.Whitman.Shell"
         mc:Ignorable="d" Title="Whitman" Width="800" Height="450"
         Background="#279EDA" Activated="OnActivated" Deactivated="OnDeactivated"
-        MouseMove="OnMouseMove" Icon="App.ico">
+        MouseMove="OnMouseMove" Icon="App.ico" Style="{StaticResource Style.Window.Universal}">
     <shell:DwmAttribute.DwmAttribute>
         <shell:DwmAttribute BackgroundColor="#279EDA" />
     </shell:DwmAttribute.DwmAttribute>
-    <Window.Style>
-        <Style TargetType="Window">
-            <Setter Property="WindowChrome.WindowChrome">
-                <Setter.Value>
-                    <WindowChrome GlassFrameThickness="0 64 0 0" NonClientFrameEdges="Left,Bottom,Right" />
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Window">
-                        <Border Padding="0 1 0 0">
-                            <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
-                                <Border VerticalAlignment="Top" Height="31">
-                                    <TextBlock x:Name="TitleTextBlock"
-                                               Foreground="White" Margin="16 0 156 0" VerticalAlignment="Center"
-                                               FontSize="12" Text="{TemplateBinding Title}" />
-                                </Border>
-                                <AdornerDecorator>
-                                    <ContentPresenter />
-                                </AdornerDecorator>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="WindowState" Value="Maximized">
-                                <Setter TargetName="RootGrid" Property="Margin" Value="6" />
-                            </Trigger>
-                            <Trigger Property="IsActive" Value="False">
-                                <Setter TargetName="TitleTextBlock" Property="Foreground" Value="#7FFFFFFF" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Style>
     <Grid x:Name="RootPanel">
         <Viewbox StretchDirection="DownOnly">
             <TextBlock x:Name="OutputTextBlock" Margin="64"
