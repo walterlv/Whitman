@@ -82,6 +82,34 @@
                                             </MultiTrigger>
                                         </Style.Triggers>
                                     </Style>
+                                    <Style x:Key="Style.Button.Close" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                        <Style.Triggers>
+                                            <MultiTrigger>
+                                                <!-- When the pointer is over the button. -->
+                                                <MultiTrigger.Conditions>
+                                                    <Condition Property="IsMouseOver" Value="True" />
+                                                    <Condition Property="IsStylusOver" Value="False" />
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Background" Value="#E81123" />
+                                            </MultiTrigger>
+                                            <!-- When the pointer is pressed. -->
+                                            <MultiTrigger>
+                                                <MultiTrigger.Conditions>
+                                                    <Condition Property="IsPressed" Value="True" />
+                                                    <Condition Property="AreAnyTouchesOver" Value="False" />
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Background" Value="#F1707A" />
+                                            </MultiTrigger>
+                                            <!-- When the touch device is pressed. -->
+                                            <MultiTrigger>
+                                                <MultiTrigger.Conditions>
+                                                    <Condition Property="IsPressed" Value="True" />
+                                                    <Condition Property="AreAnyTouchesOver" Value="True" />
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Background" Value="#F1707A" />
+                                            </MultiTrigger>
+                                        </Style.Triggers>
+                                    </Style>
                                 </FrameworkElement.Resources>
                                 <TextBlock x:Name="TitleTextBlock" FontSize="12" Text="{TemplateBinding Title}"
                                            Margin="12 0 156 0" VerticalAlignment="Center" Foreground="{StaticResource Brush.TitleBar.Foreground}" />
@@ -96,7 +124,7 @@
                                     <Button x:Name="MaximizeButton" Click="MaximizeButton_Click">
                                         <Path x:Name="MaximizeIcon" Data="{StaticResource Icon.Geometry.MaximizeWindow}" />
                                     </Button>
-                                    <Button x:Name="CloseButton" Click="CloseButton_Click">
+                                    <Button x:Name="CloseButton" Style="{StaticResource Style.Button.Close}" Click="CloseButton_Click">
                                         <Path x:Name="CloseIcon" Data="{StaticResource Icon.Geometry.CloseWindow}" />
                                     </Button>
                                 </StackPanel>
