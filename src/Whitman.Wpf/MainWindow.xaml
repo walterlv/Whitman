@@ -11,7 +11,9 @@
         MouseMove="OnMouseMove" Icon="Properties/App.ico"
         Style="{StaticResource Style.Window.Universal}">
     <themes:UniversalWindowStyle.TitleBar>
-        <themes:UniversalTitleBar ForegroundColor="White" InactiveForegroundColor="#7FFFFFFF" />
+        <themes:UniversalTitleBar ForegroundColor="White" InactiveForegroundColor="#7FFFFFFF"
+                                  ButtonHoverForeground="White" ButtonHoverBackground="#3FFFFFFF"
+                                  ButtonPressedForeground="#7FFFFFFF" ButtonPressedBackground="#3F000000" />
     </themes:UniversalWindowStyle.TitleBar>
     <shell:DwmAttribute.DwmAttribute>
         <shell:DwmAttribute BackgroundColor="#279EDA" />
