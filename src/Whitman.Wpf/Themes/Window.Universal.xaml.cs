@@ -41,7 +41,7 @@ namespace Walterlv.Whitman.Themes
 
     public class UniversalTitleBar
     {
-        public Color ForegroundColor { get; set; }
-        public Color InactiveForegroundColor { get; set; }
+        public Color ForegroundColor { get; set; } = Colors.Black;
+        public Color InactiveForegroundColor { get; set; } = Color.FromRgb(0xEE, 0xEE, 0xEE);
     }
 }
