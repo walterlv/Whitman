@@ -43,7 +43,9 @@ namespace Walterlv.Whitman.Themes
     {
         public Color ForegroundColor { get; set; } = Colors.Black;
         public Color InactiveForegroundColor { get; set; } = Color.FromRgb(0x99, 0x99, 0x99);
+        public Color ButtonHoverForeground { get; set; } = Colors.Black;
         public Color ButtonHoverBackground { get; set; } = Color.FromRgb(0xE6, 0xE6, 0xE6);
+        public Color ButtonPressedForeground { get; set; } = Colors.Black;
         public Color ButtonPressedBackground { get; set; } = Color.FromRgb(0xCC, 0xCC, 0xCC);
     }
 }

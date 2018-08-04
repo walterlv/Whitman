@@ -4,13 +4,11 @@
                     xmlns:themes="clr-namespace:Walterlv.Whitman.Themes">
     <Style x:Key="Style.Window.Universal" TargetType="Window">
         <Style.Resources>
-            <StreamGeometry x:Key="Icon.Geometry.MinimizeWindow">M 3,8 L 3,9 L 13,9 L 13,8 Z</StreamGeometry>
-            <StreamGeometry x:Key="Icon.Geometry.MaximizeWindow">M 3,3 L 3,4 L 13,4 L 13,3 Z M 3,12 L 3,13 L 13,13 L 13,12 Z M 3,4 L 3,12 L 4,12 L 4,4 Z M 12,4 L 12,12 L 13,12 L 13,4 Z</StreamGeometry>
-            <StreamGeometry x:Key="Icon.Geometry.RestoreWindow">M 3,3 L 3,4 L 13,4 L 13,3 Z M 3,12 L 3,13 L 13,13 L 13,12 Z M 3,4 L 3,12 L 4,12 L 4,4 Z M 12,4 L 12,12 L 13,12 L 13,4 Z</StreamGeometry>
-            <StreamGeometry x:Key="Icon.Geometry.CloseWindow">M 3,3 L 3,4 L 4,4 L 4,3 Z M 5,5 L 5,6 L 6,6 L 6,5 Z M 7,7 L 7,9 L 9,9 L 9,7 Z M 9,9 L 9,10 L 10,10 L 10,9 Z M 11,11 L 11,12 L 12,12 L 12,11 Z M 4,4 L 4,5 L 5,5 L 5,4 Z M 6,6 L 6,7 L 7,7 L 7,6 Z M 12,3 L 12,4 L 13,4 L 13,3 Z M 10,10 L 10,11 L 11,11 L 11,10 Z M 12,12 L 12,13 L 13,13 L 13,12 Z M 11,4 L 11,5 L 12,5 L 12,4 Z M 10,5 L 10,6 L 11,6 L 11,5 Z M 9,6 L 9,7 L 10,7 L 10,6 Z M 6,9 L 6,10 L 7,10 L 7,9 Z M 5,10 L 5,11 L 6,11 L 6,10 Z M 4,11 L 4,12 L 5,12 L 5,11 Z M 3,12 L 3,13 L 4,13 L 4,12 Z</StreamGeometry>
             <SolidColorBrush x:Key="Brush.TitleBar.Foreground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ForegroundColor, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
             <SolidColorBrush x:Key="Brush.TitleBar.InactiveForeground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).InactiveForegroundColor, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+            <SolidColorBrush x:Key="Brush.TitleBar.ButtonHoverForeground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ButtonHoverForeground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
             <SolidColorBrush x:Key="Brush.TitleBar.ButtonHoverBackground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ButtonHoverBackground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+            <SolidColorBrush x:Key="Brush.TitleBar.ButtonPressedForeground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ButtonPressedForeground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
             <SolidColorBrush x:Key="Brush.TitleBar.ButtonPressedBackground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ButtonPressedBackground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
         </Style.Resources>
         <Setter Property="themes:UniversalWindowStyle.TitleBar">
@@ -30,16 +28,10 @@
                         <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
                             <Grid x:Name="TitleBarPanel" VerticalAlignment="Top" Height="31">
                                 <FrameworkElement.Resources>
-                                    <Style TargetType="Path">
-                                        <Setter Property="Width" Value="16" />
-                                        <Setter Property="Height" Value="16" />
-                                        <Setter Property="SnapsToDevicePixels" Value="True" />
-                                        <Setter Property="Fill" Value="{StaticResource Brush.TitleBar.Foreground}" />
-                                    </Style>
                                     <Style TargetType="{x:Type Button}">
                                         <Setter Property="Width" Value="46"/>
                                         <Setter Property="BorderThickness" Value="0" />
-                                        <Setter Property="Foreground" Value="White" />
+                                        <Setter Property="Foreground" Value="{StaticResource Brush.TitleBar.Foreground}" />
                                         <Setter Property="Background" Value="Transparent"/>
                                         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="False" />
                                         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
@@ -50,7 +42,10 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
                                                     <Border Name="OverBorder" BorderThickness="0 1 0 0" Background="{TemplateBinding Background}">
-                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                        <Path x:Name="MinimizeIcon"
+                                                              Fill="{TemplateBinding Foreground}" Data="{TemplateBinding Content}"
+                                                              Width="16" Height="16" SnapsToDevicePixels="True"
+                                                              HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </Border>
                                                 </ControlTemplate>
                                             </Setter.Value>
@@ -62,6 +57,7 @@
                                                     <Condition Property="IsMouseOver" Value="True" />
                                                     <Condition Property="IsStylusOver" Value="False" />
                                                 </MultiTrigger.Conditions>
+                                                <Setter Property="Foreground" Value="{StaticResource Brush.TitleBar.ButtonHoverForeground}" />
                                                 <Setter Property="Background" Value="{StaticResource Brush.TitleBar.ButtonHoverBackground}" />
                                             </MultiTrigger>
                                             <!-- When the pointer is pressed. -->
@@ -70,6 +66,7 @@
                                                     <Condition Property="IsPressed" Value="True" />
                                                     <Condition Property="AreAnyTouchesOver" Value="False" />
                                                 </MultiTrigger.Conditions>
+                                                <Setter Property="Foreground" Value="{StaticResource Brush.TitleBar.ButtonPressedForeground}" />
                                                 <Setter Property="Background" Value="{StaticResource Brush.TitleBar.ButtonPressedBackground}" />
                                             </MultiTrigger>
                                             <!-- When the touch device is pressed. -->
@@ -78,6 +75,7 @@
                                                     <Condition Property="IsPressed" Value="True" />
                                                     <Condition Property="AreAnyTouchesOver" Value="True" />
                                                 </MultiTrigger.Conditions>
+                                                <Setter Property="Foreground" Value="{StaticResource Brush.TitleBar.ButtonPressedForeground}" />
                                                 <Setter Property="Background" Value="{StaticResource Brush.TitleBar.ButtonPressedBackground}" />
                                             </MultiTrigger>
                                         </Style.Triggers>
@@ -90,6 +88,7 @@
                                                     <Condition Property="IsMouseOver" Value="True" />
                                                     <Condition Property="IsStylusOver" Value="False" />
                                                 </MultiTrigger.Conditions>
+                                                <Setter Property="Foreground" Value="White" />
                                                 <Setter Property="Background" Value="#E81123" />
                                             </MultiTrigger>
                                             <!-- When the pointer is pressed. -->
@@ -98,6 +97,7 @@
                                                     <Condition Property="IsPressed" Value="True" />
                                                     <Condition Property="AreAnyTouchesOver" Value="False" />
                                                 </MultiTrigger.Conditions>
+                                                <Setter Property="Foreground" Value="Black" />
                                                 <Setter Property="Background" Value="#F1707A" />
                                             </MultiTrigger>
                                             <!-- When the touch device is pressed. -->
@@ -106,6 +106,7 @@
                                                     <Condition Property="IsPressed" Value="True" />
                                                     <Condition Property="AreAnyTouchesOver" Value="True" />
                                                 </MultiTrigger.Conditions>
+                                                <Setter Property="Foreground" Value="Black" />
                                                 <Setter Property="Background" Value="#F1707A" />
                                             </MultiTrigger>
                                         </Style.Triggers>
@@ -116,16 +117,16 @@
                                 <StackPanel x:Name="TitleBarButtonPanel" Orientation="Horizontal"
                                             Margin="0 -1 0 0" HorizontalAlignment="Right">
                                     <Button x:Name="MinimizeButton" Click="MinimizeButton_Click">
-                                        <Path x:Name="MinimizeIcon" Data="{StaticResource Icon.Geometry.MinimizeWindow}" />
+                                        <StreamGeometry>M 3,8 L 3,9 L 13,9 L 13,8 Z</StreamGeometry>
                                     </Button>
                                     <Button x:Name="RestoreButton" Click="RestoreButton_Click">
-                                        <Path x:Name="RestoreIcon" Data="{StaticResource Icon.Geometry.RestoreWindow}" />
+                                        <StreamGeometry>M 3,3 L 3,4 L 13,4 L 13,3 Z M 3,12 L 3,13 L 13,13 L 13,12 Z M 3,4 L 3,12 L 4,12 L 4,4 Z M 12,4 L 12,12 L 13,12 L 13,4 Z</StreamGeometry>
                                     </Button>
                                     <Button x:Name="MaximizeButton" Click="MaximizeButton_Click">
-                                        <Path x:Name="MaximizeIcon" Data="{StaticResource Icon.Geometry.MaximizeWindow}" />
+                                        <StreamGeometry>M 3,3 L 3,4 L 13,4 L 13,3 Z M 3,12 L 3,13 L 13,13 L 13,12 Z M 3,4 L 3,12 L 4,12 L 4,4 Z M 12,4 L 12,12 L 13,12 L 13,4 Z</StreamGeometry>
                                     </Button>
                                     <Button x:Name="CloseButton" Style="{StaticResource Style.Button.Close}" Click="CloseButton_Click">
-                                        <Path x:Name="CloseIcon" Data="{StaticResource Icon.Geometry.CloseWindow}" />
+                                        <StreamGeometry>M 3,3 L 3,4 L 4,4 L 4,3 Z M 5,5 L 5,6 L 6,6 L 6,5 Z M 7,7 L 7,9 L 9,9 L 9,7 Z M 9,9 L 9,10 L 10,10 L 10,9 Z M 11,11 L 11,12 L 12,12 L 12,11 Z M 4,4 L 4,5 L 5,5 L 5,4 Z M 6,6 L 6,7 L 7,7 L 7,6 Z M 12,3 L 12,4 L 13,4 L 13,3 Z M 10,10 L 10,11 L 11,11 L 11,10 Z M 12,12 L 12,13 L 13,13 L 13,12 Z M 11,4 L 11,5 L 12,5 L 12,4 Z M 10,5 L 10,6 L 11,6 L 11,5 Z M 9,6 L 9,7 L 10,7 L 10,6 Z M 6,9 L 6,10 L 7,10 L 7,9 Z M 5,10 L 5,11 L 6,11 L 6,10 Z M 4,11 L 4,12 L 5,12 L 5,11 Z M 3,12 L 3,13 L 4,13 L 4,12 Z</StreamGeometry>
                                     </Button>
                                 </StackPanel>
                             </Grid>
@@ -148,10 +149,10 @@
                         </Trigger>
                         <Trigger Property="IsActive" Value="False">
                             <Setter TargetName="TitleTextBlock" Property="Foreground" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
-                            <Setter TargetName="MinimizeIcon" Property="Fill" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
-                            <Setter TargetName="RestoreIcon" Property="Fill" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
-                            <Setter TargetName="MaximizeIcon" Property="Fill" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
-                            <Setter TargetName="CloseIcon" Property="Fill" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
+                            <Setter TargetName="MinimizeButton" Property="Foreground" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
+                            <Setter TargetName="RestoreButton" Property="Foreground" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
+                            <Setter TargetName="MaximizeButton" Property="Foreground" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
+                            <Setter TargetName="CloseButton" Property="Foreground" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
