@@ -15,7 +15,8 @@
     <Grid x:Name="RootPanel">
         <Viewbox StretchDirection="DownOnly">
             <TextBlock x:Name="OutputTextBlock" Margin="64"
-                       Text="walterlv.github.io" Foreground="#145587"
+                       Text="Press Ctrl+, on any text box to type identifiers&#xD;
+                       walterlv.github.io" Foreground="#145587"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        FontWeight="Bold" FontSize="64" />
         </Viewbox>
