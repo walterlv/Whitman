@@ -40,6 +40,9 @@
   <PropertyGroup>
     <ApplicationIcon>Properties\App.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Walterlv.Whitman.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -63,6 +66,7 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Program.cs" />
     <Compile Include="RandomIdentifier.cs" />
     <Compile Include="Shell\DwmAttribute.cs" />
     <Compile Include="Themes\Window.Universal.xaml.cs">
