@@ -42,7 +42,7 @@
     <EntryPointProjectUniqueName>..\src\Whitman.Wpf\Whitman.Wpf.csproj</EntryPointProjectUniqueName>
     <PackageCertificateThumbprint>5590BC0D060C6454536C6EF9A1A7A147000B3644</PackageCertificateThumbprint>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
