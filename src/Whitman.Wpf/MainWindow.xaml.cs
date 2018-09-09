@@ -65,12 +65,9 @@ namespace Walterlv.Whitman
 
         private readonly RandomIdentifier _randomIdentifier = new RandomIdentifier();
 
-        private void WordCount_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void OnWordOptionChanged(object sender, WordOptionChangedEventArgs e)
         {
-            var window = new Window();
-            window.Close();
-
-            UpdateCircles((int) e.NewValue);
+            UpdateCircles(e.Option.MaxWordCount);
             Generate(true, false);
         }
 

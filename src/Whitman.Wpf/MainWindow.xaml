@@ -23,7 +23,15 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid x:Name="SidePanel" Background="#C0279EDA">
-            <local:WordOptionControl x:Name="WordOptionControl" Width="160" Height="160" />
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock TextAlignment="Center" Foreground="#80FFFFFF" Margin="16 4"
+                           FontSize="16">
+                    <Run Text="定制生成规则" />
+                    <Run FontSize="12" Text="(魔性定制)" />
+                </TextBlock>
+                <local:WordOptionControl x:Name="WordOptionControl" Width="160" Height="160"
+                                         WordOptionChanged="OnWordOptionChanged"/>
+            </StackPanel>
             <TextBlock Margin="12 16" Foreground="#80FFFFFF" FontSize="14"
                        VerticalAlignment="Bottom" TextWrapping="WrapWithOverflow">
                 <Run Text="随机生成" />
