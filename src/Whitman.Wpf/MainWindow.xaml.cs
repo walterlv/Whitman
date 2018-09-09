@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -17,8 +18,8 @@ namespace Walterlv.Whitman
             Application.Current.Exit += (s, e) => _keyboardHook.Stop();
             _keyboardHook.CtrlShift += (s, e) => Generate(true, true);
             _keyboardHook.Ctrl += (s, e) => Generate(false, true);
-            MouseLeftButtonDown += (s, e) => Generate(true, false);
-            MouseRightButtonDown += (s, e) => Generate(false, false);
+            ContentPanel.MouseLeftButtonDown += (s, e) => Generate(true, false);
+            ContentPanel.MouseRightButtonDown += (s, e) => Generate(false, false);
 
             UpdateCircles(0);
             //Dispatcher.InvokeAsync(() => Generate(true, false));
@@ -106,6 +107,34 @@ namespace Walterlv.Whitman
             }
 
             circles[circles.Count - 1].BrushOpacity = 1.0;
+        }
+
+        private bool _isInAboutLink;
+
+        private void AboutLink_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (Mouse.LeftButton != MouseButtonState.Pressed)
+            {
+                _isInAboutLink = true;
+            }
+        }
+
+        private void AboutLink_MouseLeave(object sender, MouseEventArgs e)
+        {
+            _isInAboutLink = false;
+        }
+
+        private void AboutLink_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (_isInAboutLink)
+            {
+                Process.Start("https://walterlv.com/");
+            }
+        }
+
+        private void HandledElement_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

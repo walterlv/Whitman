@@ -40,12 +40,63 @@
         </Grid>
         <Grid x:Name="ContentPanel" Grid.Column="1" Background="#F0FFFFFF">
             <Viewbox StretchDirection="DownOnly">
-                <TextBlock x:Name="OutputTextBlock" Margin="64"
-                           Text="Press Ctrl+, on any text box to type identifiers&#xD;
-                       walterlv.github.io" Foreground="#145587"
+                <TextBlock x:Name="OutputTextBlock" Margin="64" TextAlignment="Center"
+                           Text="在文本框中&#xD;按下 Ctrl+, 开始" Foreground="#145587"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            FontWeight="Bold" FontSize="64" />
             </Viewbox>
+            <Border Width="24" Height="24" Margin="0 40 11 0" HorizontalAlignment="Right" VerticalAlignment="Top"
+                    CornerRadius="16" BorderThickness="1" Background="Transparent"
+                    MouseLeftButtonDown="HandledElement_MouseDown"
+                    ToolTip="在任意文本框中按下 Ctrl+Shift+, 输入 PascalCase 规则的标识符&#xD;
+在任意文本框中按下 Ctrl+, 输入 camelCase 规则的标识符">
+                <TextBlock Text="&#xE897;" FontSize="10" FontFamily="Segoe MDL2 Assets"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="BorderBrush" Value="#CCCCCC" />
+                        <Setter Property="TextBlock.Foreground" Value="#CCCCCC" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="#999999" />
+                                <Setter Property="TextBlock.Foreground" Value="#999999" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+            <!--<TextBlock Margin="0 32" TextAlignment="Center" Foreground="#999999"
+                       HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                       TextWrapping="WrapWithOverflow">
+                <Run Text="在任意文本框中按下" />
+                <Run Foreground="Black" Text="Ctrl+Shift+," />
+                <Run Text="输入" />
+                <Run Foreground="Black" Text="PascalCase" />
+                <Run Text="规则的标识符" />
+                <LineBreak />
+                <Run Text="在任意文本框中按下" />
+                <Run Foreground="Black" Text="Ctrl+," />
+                <Run Text="输入" />
+                <Run Foreground="Black" Text="camelCase" />
+                <Run Text="规则的标识符" />
+            </TextBlock>-->
+            <TextBlock Margin="0 16" TextAlignment="Center" Foreground="#A6BEC7"
+                       HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                       TextWrapping="WrapWithOverflow"
+                       Text="walterlv.com" ToolTip="关于 吕毅"
+                       MouseEnter="AboutLink_MouseEnter" MouseLeave="AboutLink_MouseLeave"
+                       MouseLeftButtonDown="HandledElement_MouseDown" MouseLeftButtonUp="AboutLink_MouseUp">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="TextDecorations" Value="Underline" />
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
         </Grid>
     </Grid>
 </Window>
