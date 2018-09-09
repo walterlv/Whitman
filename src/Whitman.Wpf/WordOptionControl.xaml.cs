@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Walterlv.Whitman
 {
@@ -132,6 +124,9 @@ namespace Walterlv.Whitman
             var (minSyllableCount, maxSyllableCount) = FindRange(_syllableCountOption);
             (MinWordCount, MaxWordCount) = (minWordCount + 1, maxWordCount + 1);
             (MinSyllableCount, MaxSyllableCount) = (minSyllableCount + 1, maxSyllableCount + 1);
+
+            WordOptionChanged?.Invoke(this, new WordOptionChangedEventArgs(
+                MinWordCount, MaxWordCount, MinSyllableCount, MaxSyllableCount));
 
             (int min, int max) FindRange(IReadOnlyList<bool> array)
             {
