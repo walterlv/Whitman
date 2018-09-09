@@ -69,6 +69,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="RandomIdentifier.cs" />
     <Compile Include="Shell\DwmAttribute.cs" />
+    <Compile Include="Shell\WindowBlur.cs" />
     <Compile Include="Themes\Window.Universal.xaml.cs">
       <DependentUpon>Window.Universal.xaml</DependentUpon>
     </Compile>

@@ -5,6 +5,8 @@
         <Style.Resources>
             <SolidColorBrush x:Key="Brush.TitleBar.Foreground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ForegroundColor, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
             <SolidColorBrush x:Key="Brush.TitleBar.InactiveForeground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).InactiveForegroundColor, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+            <SolidColorBrush x:Key="Brush.TitleBar.ButtonForeground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ButtonForegroundColor, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+            <SolidColorBrush x:Key="Brush.TitleBar.ButtonInactiveForeground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ButtonInactiveForegroundColor, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
             <SolidColorBrush x:Key="Brush.TitleBar.ButtonHoverForeground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ButtonHoverForeground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
             <SolidColorBrush x:Key="Brush.TitleBar.ButtonHoverBackground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ButtonHoverBackground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
             <SolidColorBrush x:Key="Brush.TitleBar.ButtonPressedForeground" Color="{Binding Path=(themes:UniversalWindowStyle.TitleBar).ButtonPressedForeground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
@@ -25,12 +27,15 @@
                 <ControlTemplate TargetType="Window">
                     <Border Padding="4 1 4 4">
                         <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <AdornerDecorator>
+                                <ContentPresenter />
+                            </AdornerDecorator>
                             <Grid x:Name="TitleBarPanel" VerticalAlignment="Top" Height="31">
                                 <FrameworkElement.Resources>
                                     <Style TargetType="{x:Type Button}">
                                         <Setter Property="Width" Value="46"/>
                                         <Setter Property="BorderThickness" Value="0" />
-                                        <Setter Property="Foreground" Value="{StaticResource Brush.TitleBar.Foreground}" />
+                                        <Setter Property="Foreground" Value="{StaticResource Brush.TitleBar.ButtonForeground}" />
                                         <Setter Property="Background" Value="Transparent"/>
                                         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="False" />
                                         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
@@ -121,9 +126,6 @@
                                     <Button x:Name="CloseButton" Content="&#xE106;" Style="{StaticResource Style.Button.Close}" themes:UniversalWindowStyle.IsTitleBarCloseButton="True" />
                                 </StackPanel>
                             </Grid>
-                            <AdornerDecorator>
-                                <ContentPresenter />
-                            </AdornerDecorator>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -140,10 +142,10 @@
                         </Trigger>
                         <Trigger Property="IsActive" Value="False">
                             <Setter TargetName="TitleTextBlock" Property="Foreground" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
-                            <Setter TargetName="MinimizeButton" Property="Foreground" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
-                            <Setter TargetName="RestoreButton" Property="Foreground" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
-                            <Setter TargetName="MaximizeButton" Property="Foreground" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
-                            <Setter TargetName="CloseButton" Property="Foreground" Value="{StaticResource Brush.TitleBar.InactiveForeground}" />
+                            <Setter TargetName="MinimizeButton" Property="Foreground" Value="{StaticResource Brush.TitleBar.ButtonInactiveForeground}" />
+                            <Setter TargetName="RestoreButton" Property="Foreground" Value="{StaticResource Brush.TitleBar.ButtonInactiveForeground}" />
+                            <Setter TargetName="MaximizeButton" Property="Foreground" Value="{StaticResource Brush.TitleBar.ButtonInactiveForeground}" />
+                            <Setter TargetName="CloseButton" Property="Foreground" Value="{StaticResource Brush.TitleBar.ButtonInactiveForeground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

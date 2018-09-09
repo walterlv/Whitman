@@ -26,7 +26,7 @@ namespace Walterlv.Whitman
 
         private readonly Storyboard _storyboard;
         private readonly Random _random = new Random((int) DateTimeOffset.UtcNow.Ticks);
-        private readonly Brush _outerCircleBrush = new SolidColorBrush(Colors.White);
+        private readonly Brush _outerCircleBrush = new SolidColorBrush(Color.FromRgb(0x28, 0x9d, 0xd9));
 
         private bool _isLayouted;
         private Size _lastRenderSize;

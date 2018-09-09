@@ -47,7 +47,7 @@ namespace Walterlv.Whitman
 
         private void OnActivated(object sender, EventArgs e)
         {
-            foreach (var circle in RootPanel.Children.OfType<MovingCircle>())
+            foreach (var circle in ContentPanel.Children.OfType<MovingCircle>())
             {
                 circle.IsAnimationEnabled = true;
             }
@@ -55,7 +55,7 @@ namespace Walterlv.Whitman
 
         private void OnDeactivated(object sender, EventArgs e)
         {
-            foreach (var circle in RootPanel.Children.OfType<MovingCircle>())
+            foreach (var circle in ContentPanel.Children.OfType<MovingCircle>())
             {
                 circle.IsAnimationEnabled = false;
             }
@@ -85,13 +85,16 @@ namespace Walterlv.Whitman
 
         private void WordCount_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            var window = new Window();
+            window.Close();
+
             UpdateCircles((int) e.NewValue);
             Generate(true, false);
         }
 
         private void UpdateCircles(int count)
         {
-            var oldValue = RootPanel.Children.OfType<MovingCircle>().Count();
+            var oldValue = ContentPanel.Children.OfType<MovingCircle>().Count();
             var newValue = count;
             _randomIdentifier.WordCount = newValue;
             newValue = newValue <= 0 ? 3 : newValue;
@@ -100,18 +103,18 @@ namespace Walterlv.Whitman
             {
                 for (var i = newValue; i < oldValue; i++)
                 {
-                    RootPanel.Children.RemoveAt(newValue);
+                    ContentPanel.Children.RemoveAt(newValue);
                 }
             }
             else if (newValue > oldValue)
             {
                 for (var i = oldValue; i < newValue; i++)
                 {
-                    RootPanel.Children.Insert(oldValue, new MovingCircle());
+                    ContentPanel.Children.Insert(oldValue, new MovingCircle());
                 }
             }
 
-            var circles = RootPanel.Children.OfType<MovingCircle>().ToList();
+            var circles = ContentPanel.Children.OfType<MovingCircle>().ToList();
             for (var i = 0; i < circles.Count; i++)
             {
                 var circle = circles[i];
