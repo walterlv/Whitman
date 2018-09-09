@@ -23,29 +23,138 @@ namespace Walterlv.Whitman
         public WordOptionControl()
         {
             InitializeComponent();
+            MouseLeftButtonDown += OnMouseDown;
+            MouseMove += OnMouseMove;
+            MouseLeave += OnMouseLeave;
         }
 
-        private void CellPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        private readonly bool[] _wordCountOption = new bool[5];
+        private readonly bool[] _syllableCountOption = new bool[5];
+        private int _movingCellIndex = -1;
+        private int _movingLineIndex = -1;
+
+        private static readonly Brush ActiveBrush = new SolidColorBrush(Colors.White);
+        private static readonly Brush InactiveBrush = new SolidColorBrush(Colors.White) { Opacity = 0.2 };
+        private static readonly Brush HoverBrush = new SolidColorBrush(Colors.White) { Opacity = 0.5 };
+
+        private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
+            var (lineIndex, cellIndex) = GetIndexes(e.GetPosition(this));
+            var oldActivationState = _wordCountOption[lineIndex];
 
-        }
-
-        private void CellPanel_MouseMove(object sender, MouseEventArgs e)
-        {
-            var source = (UIElement) e.OriginalSource;
-            var index = InteractivePanel.Children.IndexOf(source);
-            var child = SourceRow.Children[index];
-
-            for (var i = 0; i < SourceRow.Children.Count; i++)
+            if (!oldActivationState)
             {
-                if (i == index)
+                _wordCountOption[lineIndex] = true;
+                if (cellIndex != 0)
                 {
-                    child.Opacity = 1.0;
+                    _syllableCountOption[cellIndex] = true;
                 }
-                else
+            }
+            else if (cellIndex == 0)
+            {
+                _wordCountOption[lineIndex] = false;
+            }
+            else
+            {
+                _syllableCountOption[cellIndex] = !_syllableCountOption[cellIndex];
+            }
+
+            UpdateOptions();
+            InvalidateVisual();
+        }
+
+        private void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            (_movingLineIndex, _movingCellIndex) = GetIndexes(e.GetPosition(this));
+            InvalidateVisual();
+        }
+
+        private void OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            _movingLineIndex = -1;
+            _movingCellIndex = -1;
+            InvalidateVisual();
+        }
+
+        protected override void OnRender(DrawingContext dc)
+        {
+            var cellWidth = RenderSize.Width / 5;
+            var lineHeight = RenderSize.Height / 5;
+
+            for (var line = 0; line < 5; line++)
+            {
+                for (var cell = 0; cell < 5; cell++)
                 {
-                    child.Opacity = 0.5;
+                    var rect = new Rect(cellWidth * cell, lineHeight * line, cellWidth, lineHeight);
+                    var isHover = line == _movingLineIndex && cell == _movingCellIndex;
+
+                    if (_wordCountOption[line])
+                    {
+                        if (cell == 0 || _syllableCountOption[cell])
+                        {
+                            dc.DrawRectangle(ActiveBrush, null, rect);
+                        }
+                        else if (isHover)
+                        {
+                            dc.DrawRectangle(HoverBrush, null, rect);
+                        }
+                        else
+                        {
+                            dc.DrawRectangle(InactiveBrush, null, rect);
+                        }
+                    }
+                    else if (isHover)
+                    {
+                        dc.DrawRectangle(HoverBrush, null, rect);
+                    }
+                    else
+                    {
+                        dc.DrawRectangle(InactiveBrush, null, rect);
+                    }
                 }
+            }
+        }
+
+        private (int lineIndex, int cellIndex) GetIndexes(Point position)
+        {
+            var cellIndex = (int) (position.X / (RenderSize.Width / 5));
+            if (cellIndex < 0) cellIndex = 0;
+            if (cellIndex >= 5) cellIndex = 4;
+            var lineIndex = (int) (position.Y / (RenderSize.Height / 5));
+            if (lineIndex < 0) lineIndex = 0;
+            if (lineIndex >= 5) lineIndex = 4;
+            return (lineIndex, cellIndex);
+        }
+
+        private void UpdateOptions()
+        {
+            var (minWordCount, maxWordCount) = FindRange(_wordCountOption);
+            var (minSyllableCount, maxSyllableCount) = FindRange(_syllableCountOption);
+            (MinWordCount, MaxWordCount) = (minWordCount + 1, maxWordCount + 1);
+            (MinSyllableCount, MaxSyllableCount) = (minSyllableCount + 1, maxSyllableCount + 1);
+
+            (int min, int max) FindRange(IReadOnlyList<bool> array)
+            {
+                int min = 0, max = 0;
+                for (var i = 0; i < array.Count; i++)
+                {
+                    if (array[i])
+                    {
+                        min = i;
+                        break;
+                    }
+                }
+
+                for (var i = array.Count - 1; i >= 0; i--)
+                {
+                    if (array[i])
+                    {
+                        max = i;
+                        break;
+                    }
+                }
+
+                return (min, max);
             }
         }
 
@@ -99,7 +208,8 @@ namespace Walterlv.Whitman
 
     class WordOptionChangedEventArgs : EventArgs
     {
-        public WordOptionChangedEventArgs(int minWordCount, int maxWordCount, int minSyllableCount, int maxSyllableCount)
+        public WordOptionChangedEventArgs(int minWordCount, int maxWordCount, int minSyllableCount,
+            int maxSyllableCount)
         {
             Option = new WordOption(minWordCount, maxWordCount, minSyllableCount, maxSyllableCount);
         }
