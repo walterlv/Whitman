@@ -15,10 +15,11 @@ namespace Walterlv.Whitman
             MouseLeftButtonDown += OnMouseDown;
             MouseMove += OnMouseMove;
             MouseLeave += OnMouseLeave;
+            UpdateOptions();
         }
 
         private readonly bool[] _wordCountOption = new bool[5] { true, true, true, true, false };
-        private readonly bool[] _syllableCountOption = new bool[5] { true, true, true, true, true };
+        private readonly bool[] _syllableCountOption = new bool[5] { true, true, true, true, false };
         private int _movingCellIndex = -1;
         private int _movingLineIndex = -1;
 
