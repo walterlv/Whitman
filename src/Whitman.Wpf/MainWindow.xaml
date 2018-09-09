@@ -8,7 +8,7 @@
         xmlns:themes="clr-namespace:Walterlv.Whitman.Themes"
         mc:Ignorable="d" Title="Whitman" Width="1000" Height="640"
         Activated="OnActivated" Deactivated="OnDeactivated"
-        Background="Transparent" MouseMove="OnMouseMove" Icon="Properties/App.ico"
+        Background="Transparent" Icon="Properties/App.ico"
         Style="{StaticResource Style.Window.Universal}"
         shell:WindowBlur.IsEnabled="True">
     <themes:UniversalWindowStyle.TitleBar>
@@ -23,7 +23,11 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid x:Name="SidePanel" Background="#C0279EDA">
-
+            <Slider x:Name="WordCountSlider" Margin="16 8" VerticalAlignment="Bottom"
+                    Maximum="5" SmallChange="1" Value="0" TickPlacement="BottomRight"
+                    ValueChanged="WordCount_ValueChanged"
+                    IsMoveToPointEnabled="True" IsSnapToTickEnabled="True"
+                    AutoToolTipPlacement="BottomRight" />
         </Grid>
         <Grid x:Name="ContentPanel" Grid.Column="1" Background="#F0FFFFFF">
             <Viewbox StretchDirection="DownOnly">
@@ -33,11 +37,6 @@
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            FontWeight="Bold" FontSize="64" />
             </Viewbox>
-            <Slider x:Name="WordCountSlider" Margin="16 8" VerticalAlignment="Bottom"
-                    Maximum="5" SmallChange="1" Value="0" TickPlacement="BottomRight"
-                    ValueChanged="WordCount_ValueChanged"
-                    IsMoveToPointEnabled="True" IsSnapToTickEnabled="True"
-                    AutoToolTipPlacement="BottomRight" />
         </Grid>
     </Grid>
 </Window>
