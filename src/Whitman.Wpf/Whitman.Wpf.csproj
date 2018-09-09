@@ -74,6 +74,9 @@
     <Compile Include="Themes\Window.Universal.xaml.cs">
       <DependentUpon>Window.Universal.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WordOptionControl.xaml.cs">
+      <DependentUpon>WordOptionControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -88,6 +91,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Themes\Window.Universal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WordOptionControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
