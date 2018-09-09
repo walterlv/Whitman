@@ -26,6 +26,9 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -45,5 +48,13 @@
         <Rectangle Grid.Row="2" Style="{StaticResource DuplicatedRow}" />
         <Rectangle Grid.Row="3" Style="{StaticResource DuplicatedRow}" />
         <Rectangle Grid.Row="4" Style="{StaticResource DuplicatedRow}" />
+        <UniformGrid x:Name="InteractivePanel" Rows="1" Grid.Row="0" Grid.RowSpan="5"
+                     MouseDown="CellPanel_MouseDown" MouseMove="CellPanel_MouseMove">
+            <Border />
+            <Border />
+            <Border />
+            <Border />
+            <Border />
+        </UniformGrid>
     </Grid>
 </UserControl>
