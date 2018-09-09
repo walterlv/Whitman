@@ -7,9 +7,6 @@ using System.Windows.Media;
 
 namespace Walterlv.Whitman
 {
-    /// <summary>
-    /// Interaction logic for WordOptionControl.xaml
-    /// </summary>
     public partial class WordOptionControl : UserControl
     {
         public WordOptionControl()
@@ -20,12 +17,12 @@ namespace Walterlv.Whitman
             MouseLeave += OnMouseLeave;
         }
 
-        private readonly bool[] _wordCountOption = new bool[5];
-        private readonly bool[] _syllableCountOption = new bool[5];
+        private readonly bool[] _wordCountOption = new bool[5] { true, true, true, true, false };
+        private readonly bool[] _syllableCountOption = new bool[5] { true, true, true, true, true };
         private int _movingCellIndex = -1;
         private int _movingLineIndex = -1;
 
-        private static readonly Brush ActiveBrush = new SolidColorBrush(Colors.White);
+        private static readonly Brush ActiveBrush = new SolidColorBrush(Colors.White) { Opacity = 0.7 };
         private static readonly Brush InactiveBrush = new SolidColorBrush(Colors.White) { Opacity = 0.2 };
         private static readonly Brush HoverBrush = new SolidColorBrush(Colors.White) { Opacity = 0.5 };
 

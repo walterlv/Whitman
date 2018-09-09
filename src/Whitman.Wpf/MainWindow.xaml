@@ -23,7 +23,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid x:Name="SidePanel" Background="#C0279EDA">
-            <local:WordOptionControl x:Name="WordOptionControl" Width="160" Height="240" />
+            <local:WordOptionControl x:Name="WordOptionControl" Width="160" Height="160" />
             <TextBlock Margin="12 16" Foreground="#80FFFFFF" FontSize="14"
                        VerticalAlignment="Bottom" TextWrapping="WrapWithOverflow">
                 <Run Text="随机生成" />
