@@ -23,11 +23,20 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid x:Name="SidePanel" Background="#C0279EDA">
-            <Slider x:Name="WordCountSlider" Margin="16 8" VerticalAlignment="Bottom"
+            <!--<Slider x:Name="WordCountSlider" Margin="16 8"
                     Maximum="5" SmallChange="1" Value="0" TickPlacement="BottomRight"
                     ValueChanged="WordCount_ValueChanged"
                     IsMoveToPointEnabled="True" IsSnapToTickEnabled="True"
-                    AutoToolTipPlacement="BottomRight" />
+                    AutoToolTipPlacement="BottomRight"
+                    Width="160" Height="160" Foreground="White">
+                <Slider.Template>
+                    <ControlTemplate TargetType="Slider">
+                        <Ellipse StrokeThickness="16" Stroke="{TemplateBinding Foreground}"
+                                 StrokeDashArray="28"/>
+                    </ControlTemplate>
+                </Slider.Template>
+            </Slider>-->
+            <local:CircleSlider Width="160" Height="160" />
         </Grid>
         <Grid x:Name="ContentPanel" Grid.Column="1" Background="#F0FFFFFF">
             <Viewbox StretchDirection="DownOnly">
