@@ -24,7 +24,8 @@ namespace Walterlv.Whitman
 
         private static readonly Brush ActiveBrush = new SolidColorBrush(Colors.White) { Opacity = 0.7 };
         private static readonly Brush InactiveBrush = new SolidColorBrush(Colors.White) { Opacity = 0.2 };
-        private static readonly Brush HoverBrush = new SolidColorBrush(Colors.White) { Opacity = 0.5 };
+        private static readonly Brush ActiveHoverBrush = new SolidColorBrush(Colors.White) { Opacity = 1.0 };
+        private static readonly Brush InactiveHoverBrush = new SolidColorBrush(Colors.White) { Opacity = 0.5 };
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -81,24 +82,16 @@ namespace Walterlv.Whitman
                     {
                         if (cell == 0 || _syllableCountOption[cell])
                         {
-                            dc.DrawRectangle(ActiveBrush, null, rect);
-                        }
-                        else if (isHover)
-                        {
-                            dc.DrawRectangle(HoverBrush, null, rect);
+                            dc.DrawRectangle(isHover ? ActiveHoverBrush : ActiveBrush, null, rect);
                         }
                         else
                         {
-                            dc.DrawRectangle(InactiveBrush, null, rect);
+                            dc.DrawRectangle(isHover ? InactiveHoverBrush : InactiveBrush, null, rect);
                         }
-                    }
-                    else if (isHover)
-                    {
-                        dc.DrawRectangle(HoverBrush, null, rect);
                     }
                     else
                     {
-                        dc.DrawRectangle(InactiveBrush, null, rect);
+                        dc.DrawRectangle(isHover ? InactiveHoverBrush : InactiveBrush, null, rect);
                     }
                 }
             }
