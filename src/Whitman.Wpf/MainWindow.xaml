@@ -23,22 +23,21 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid x:Name="SidePanel" Background="#C0279EDA">
-            <StackPanel VerticalAlignment="Center">
-                <local:WordOptionControl x:Name="WordOptionControl" Width="160" Height="240" />
-                <TextBlock Margin="12 16 12 8" Foreground="#A6BEC7" FontSize="14" TextWrapping="WrapWithOverflow">
-                    <Run Text="随机生成" />
-                    <Run Text="{Binding MinWordCount, ElementName=WordOptionControl, FallbackValue=0}" />
-                    <Run Text="- " />
-                    <Run Text="{Binding MaxWordCount, ElementName=WordOptionControl, FallbackValue=0}" />
-                    <Run Text="个单词，每个单词" />
-                    <Run Text="{Binding MinSyllableCount, ElementName=WordOptionControl, FallbackValue=0}" />
-                    <Run Text="- " />
-                    <Run Text="{Binding MaxSyllableCount, ElementName=WordOptionControl, FallbackValue=0}" />
-                    <Run Text="个音节的标识符；但总音节数不超过" />
-                    <Run Text="{Binding MaxTotalSyllableCount, ElementName=WordOptionControl, FallbackValue=0}" />
-                    <Run Text="个。" />
-                </TextBlock>
-            </StackPanel>
+            <local:WordOptionControl x:Name="WordOptionControl" Width="160" Height="240" />
+            <TextBlock Margin="12 16" Foreground="#80FFFFFF" FontSize="14"
+                       VerticalAlignment="Bottom" TextWrapping="WrapWithOverflow">
+                <Run Text="随机生成" />
+                <Run Text="{Binding MinWordCount, ElementName=WordOptionControl, FallbackValue=0}" />
+                <Run Text="- " />
+                <Run Text="{Binding MaxWordCount, ElementName=WordOptionControl, FallbackValue=0}" />
+                <Run Text="个单词，每个单词" />
+                <Run Text="{Binding MinSyllableCount, ElementName=WordOptionControl, FallbackValue=0}" />
+                <Run Text="- " />
+                <Run Text="{Binding MaxSyllableCount, ElementName=WordOptionControl, FallbackValue=0}" />
+                <Run Text="个音节的标识符；但总音节数不超过" />
+                <Run Text="{Binding MaxTotalSyllableCount, ElementName=WordOptionControl, FallbackValue=0}" />
+                <Run Text="个。" />
+            </TextBlock>
         </Grid>
         <Grid x:Name="ContentPanel" Grid.Column="1" Background="#F0FFFFFF">
             <Viewbox StretchDirection="DownOnly">
