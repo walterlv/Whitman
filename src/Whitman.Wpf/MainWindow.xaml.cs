@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
+using Microsoft.Toolkit.Wpf.UI.XamlHost;
+using RoutedEventArgs = Windows.UI.Xaml.RoutedEventArgs;
 
 namespace Walterlv.Whitman
 {
