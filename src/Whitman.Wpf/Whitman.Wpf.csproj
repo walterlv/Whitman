@@ -100,6 +100,10 @@
     <Compile Include="Themes\Window.Universal.xaml.cs">
       <DependentUpon>Window.Universal.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Whitman.Uwp\MainPage.g.cs" />
+    <Compile Include="Whitman.Uwp\MainPage.g.i.cs" />
+    <Compile Include="Whitman.Uwp\MainPage.xaml.cs" />
+    <Compile Include="Whitman.Uwp\XamlTypeInfo.g.cs" />
     <Compile Include="WordOptionControl.xaml.cs">
       <DependentUpon>WordOptionControl.xaml</DependentUpon>
     </Compile>
