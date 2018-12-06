@@ -7,4 +7,7 @@
     <ApplicationIcon>Properties\App.ico</ApplicationIcon>
     <StartupObject>Walterlv.Whitman.Program</StartupObject>
   </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Properties\App.ico" />
+  </ItemGroup>
 </Project>
