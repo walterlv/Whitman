@@ -35,12 +35,11 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
     <ProjectGuid>0d24eb15-a746-4d30-b7ca-15254e64184d</ProjectGuid>
-    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <PackageCertificateKeyFile>Whitman.Package_StoreKey.pfx</PackageCertificateKeyFile>
     <EntryPointProjectUniqueName>..\src\Whitman.Wpf\Whitman.Wpf.csproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>5590BC0D060C6454536C6EF9A1A7A147000B3644</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>44C0EE4E6640A69C052C064F00AC33B3FAE6F3A0</PackageCertificateThumbprint>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
@@ -122,7 +121,13 @@
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Whitman.Wpf\Whitman.Wpf.csproj" />
+    <ProjectReference Include="..\src\Whitman.Wpf\Whitman.Wpf.csproj">
+      <DesktopBridgeSelfContained>False</DesktopBridgeSelfContained>
+      <DesktopBridgeIdentifier>
+      </DesktopBridgeIdentifier>
+      <Properties>DesktopBridgeSelfContained=%(DesktopBridgeSelfContained);DesktopBridgeIdentifier=%(DesktopBridgeIdentifier)</Properties>
+      <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>
