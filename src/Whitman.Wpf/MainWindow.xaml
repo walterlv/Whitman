@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Walterlv.Whitman"
         xmlns:shell="clr-namespace:Walterlv.Whitman.Shell"
-        xmlns:themes="clr-namespace:Walterlv.Whitman.Themes"
+        xmlns:themes="clr-namespace:Walterlv.Themes"
         mc:Ignorable="d" Title="Whitman" Width="1000" Height="640"
         Activated="OnActivated" Deactivated="OnDeactivated"
         Background="Transparent" Icon="Properties/App.ico"

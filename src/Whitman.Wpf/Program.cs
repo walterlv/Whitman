@@ -34,9 +34,6 @@ namespace Walterlv.Whitman
             app.Run();
         }
 
-        //[DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        //public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
         [DllImport("user32.dll")]
         private static extern int ShowWindow(IntPtr hwnd, uint nCmdShow);
 
