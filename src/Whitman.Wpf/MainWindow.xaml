@@ -8,53 +8,62 @@
         xmlns:themes="clr-namespace:Walterlv.Themes"
         mc:Ignorable="d" Title="Whitman" Width="1000" Height="640"
         Activated="OnActivated" Deactivated="OnDeactivated"
-        Background="Transparent" Icon="Properties/App.ico"
-        Style="{StaticResource Style.Window.Universal}"
-        shell:WindowBlur.IsEnabled="True">
+        Background="Transparent" Padding="-1" Icon="Properties/App.ico"
+        Style="{StaticResource Style.Window.Universal}">
     <themes:UniversalWindowStyle.TitleBar>
-        <themes:UniversalTitleBar ForegroundColor="White" InactiveForegroundColor="#A6BEC7"
-                                  ButtonForegroundColor="Black" ButtonInactiveForegroundColor="#999999"
-                                  ButtonHoverForeground="Black" ButtonHoverBackground="#E6E6E6"
-                                  ButtonPressedForeground="Black" ButtonPressedBackground="#CCCCCC" />
+        <themes:UniversalTitleBar ForegroundColor="White" InactiveForegroundColor="#9fd3ed"
+                                  ButtonForegroundColor="White" ButtonInactiveForegroundColor="#9fd3ed"
+                                  ButtonHoverForeground="White" ButtonHoverBackground="#289dd9"
+                                  ButtonPressedForeground="White" ButtonPressedBackground="#145587" />
     </themes:UniversalWindowStyle.TitleBar>
+    <themes:UniversalWindowStyle.Window>
+        <themes:UniversalWindow FrameColor="Transparent" InactiveFrameColor="Transparent" />
+    </themes:UniversalWindowStyle.Window>
     <Grid x:Name="RootPanel">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="240" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid x:Name="SidePanel" Background="#C0279EDA">
-            <StackPanel VerticalAlignment="Center">
-                <TextBlock TextAlignment="Center" Foreground="#80FFFFFF" Margin="16 4"
-                           FontSize="16">
-                    <Run Text="定制生成规则" />
-                    <Run FontSize="12" Text="(魔性定制)" />
-                </TextBlock>
-                <local:WordOptionControl x:Name="WordOptionControl" Width="160" Height="160"
-                                         WordOptionChanged="OnWordOptionChanged"/>
-            </StackPanel>
-            <TextBlock Margin="12 16" Foreground="#80FFFFFF" FontSize="14"
-                       VerticalAlignment="Bottom" TextWrapping="WrapWithOverflow">
-                <Run Text="随机生成" />
-                <Run Text="{Binding MinWordCount, ElementName=WordOptionControl, FallbackValue=0}" />
-                <Run Text="- " />
-                <Run Text="{Binding MaxWordCount, ElementName=WordOptionControl, FallbackValue=0}" />
-                <Run Text="个单词，每个单词" />
-                <Run Text="{Binding MinSyllableCount, ElementName=WordOptionControl, FallbackValue=0}" />
-                <Run Text="- " />
-                <Run Text="{Binding MaxSyllableCount, ElementName=WordOptionControl, FallbackValue=0}" />
-                <Run Text="个音节的标识符；但总音节数不超过" />
-                <Run Text="{Binding MaxTotalSyllableCount, ElementName=WordOptionControl, FallbackValue=0}" />
-                <Run Text="个。" />
-            </TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="80" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid x:Name="TitlePanel" Grid.Row="0" Background="#289dd9">
         </Grid>
-        <Grid x:Name="ContentPanel" Grid.Column="1" Background="#F0FFFFFF">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Grid.RowSpan="2" Background="White">
             <Viewbox StretchDirection="DownOnly">
                 <TextBlock x:Name="OutputTextBlock" Margin="64" TextAlignment="Center"
                            Text="在文本框中&#xD;按下 Ctrl+, 开始" Foreground="#145587"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            FontWeight="Bold" FontSize="64" />
             </Viewbox>
-            <Border Width="24" Height="24" Margin="0 40 11 0" HorizontalAlignment="Right" VerticalAlignment="Top"
+            <TextBlock Margin="0 16" TextAlignment="Center" Foreground="#A6BEC7"
+                       HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                       TextWrapping="WrapWithOverflow"
+                       Text="walterlv.com" ToolTip="关于 吕毅"
+                       MouseEnter="AboutLink_MouseEnter" MouseLeave="AboutLink_MouseLeave"
+                       MouseLeftButtonDown="HandledElement_MouseDown" MouseLeftButtonUp="AboutLink_MouseUp">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="TextDecorations" Value="Underline" />
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+        <Grid x:Name="HeaderPanel" Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <Border BorderThickness="0 0 0 4" BorderBrush="#C0279EDA" Padding="16 4"
+                        Margin="12 0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                    <TextBlock FontSize="40" FontWeight="Thin" Foreground="#C0279EDA" Text="标识符生成器" />
+                </Border>
+                <Border BorderThickness="0 0 0 4" BorderBrush="Transparent" Padding="16 4"
+                        Margin="12 0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                    <TextBlock FontSize="40" FontWeight="Thin" Foreground="#30279EDA" Text="设置" />
+                </Border>
+            </StackPanel>
+            <Border Width="24" Height="24" Margin="11" HorizontalAlignment="Right" VerticalAlignment="Top"
                     CornerRadius="16" BorderThickness="1" Background="Transparent"
                     MouseLeftButtonDown="HandledElement_MouseDown"
                     ToolTip="在任意文本框中按下 Ctrl+Shift+, 输入 PascalCase 规则的标识符&#xD;
@@ -74,23 +83,6 @@
                     </Style>
                 </Border.Style>
             </Border>
-            <TextBlock Margin="0 16" TextAlignment="Center" Foreground="#A6BEC7"
-                       HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                       TextWrapping="WrapWithOverflow"
-                       Text="walterlv.com" ToolTip="关于 吕毅"
-                       MouseEnter="AboutLink_MouseEnter" MouseLeave="AboutLink_MouseLeave"
-                       MouseLeftButtonDown="HandledElement_MouseDown" MouseLeftButtonUp="AboutLink_MouseUp">
-                <TextBlock.Style>
-                    <Style TargetType="TextBlock">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="TextDecorations" Value="Underline" />
-                                <Setter Property="Cursor" Value="Hand" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
         </Grid>
     </Grid>
 </Window>

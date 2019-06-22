@@ -83,7 +83,10 @@ namespace Walterlv.Whitman.Shell
         {
             try
             {
-                DetachCore();
+                if (_window != null)
+                {
+                    DetachCore();
+                }
             }
             finally
             {

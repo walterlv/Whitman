@@ -21,7 +21,7 @@
         </Setter>
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome GlassFrameThickness="0 32 0 0" ResizeBorderThickness="6" UseAeroCaptionButtons="True" />
+                <WindowChrome GlassFrameThickness="0 32 0 0" ResizeBorderThickness="6" UseAeroCaptionButtons="False" CornerRadius="0" />
             </Setter.Value>
         </Setter>
         <Setter Property="Width" Value="{x:Static themes:UniversalWindowParameters.DefaultWindowWidth}" />
@@ -37,7 +37,7 @@
                             <AdornerDecorator>
                                 <ContentPresenter />
                             </AdornerDecorator>
-                            <Grid x:Name="TitleBarPanel" VerticalAlignment="Top" Height="31">
+                            <Grid x:Name="TitleBarPanel" VerticalAlignment="Top" Height="32">
                                 <FrameworkElement.Resources>
                                     <Style TargetType="{x:Type Button}">
                                         <Setter Property="Focusable" Value="False" />
