@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace Walterlv.Whitman
 {
@@ -22,6 +23,35 @@ namespace Walterlv.Whitman
             GeneratingPanel.MouseRightButtonDown += (s, e) => Generate(false, false);
 
             UpdateCircles(0);
+        }
+
+        public bool IsInSetting
+        {
+            get => !double.IsNaN(EffectPanel.Width);
+            set
+            {
+                if (Equals(IsInSetting, value))
+                {
+                    return;
+                }
+
+                if (value)
+                {
+                    ((Storyboard)FindResource("Storyboard.GotoSettingPage")).Begin();
+                    EffectPanel.HorizontalAlignment = HorizontalAlignment.Left;
+                    EffectPanel.VerticalAlignment = VerticalAlignment.Top;
+                    EffectPanel.Width = 160;
+                    EffectPanel.Height = 240;
+                }
+                else
+                {
+                    ((Storyboard)FindResource("Storyboard.GotoGeneratingPage")).Begin();
+                    EffectPanel.ClearValue(HorizontalAlignmentProperty);
+                    EffectPanel.ClearValue(VerticalAlignmentProperty);
+                    EffectPanel.ClearValue(WidthProperty);
+                    EffectPanel.ClearValue(HeightProperty);
+                }
+            }
         }
 
         private void Generate(bool pascal = true, bool write = false)
@@ -58,6 +88,16 @@ namespace Walterlv.Whitman
             {
                 circle.IsAnimationEnabled = false;
             }
+        }
+
+        private void GeneratingPage_Checked(object sender, RoutedEventArgs e)
+        {
+            IsInSetting = false;
+        }
+
+        private void SettingPage_Checked(object sender, RoutedEventArgs e)
+        {
+            IsInSetting = true;
         }
 
         private readonly KeyboardHook _keyboardHook;

@@ -5,11 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:themes="clr-namespace:Walterlv.Themes"
         xmlns:effects="clr-namespace:Walterlv.Effects"
+        xmlns:shell="clr-namespace:Walterlv.Whitman.Shell"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d" Title="Whitman" Width="1000" Height="640"
         Activated="OnActivated" Deactivated="OnDeactivated"
         Background="Transparent" Padding="-1" Icon="Properties/App.ico"
         Style="{StaticResource Style.Window.Universal}"
-        FontFamily="Microsoft YaHei" UseLayoutRounding="True" SnapsToDevicePixels="True">
+        FontFamily="Microsoft YaHei" UseLayoutRounding="True" SnapsToDevicePixels="True"
+        shell:WindowBlur.IsEnabled="True">
     <themes:UniversalWindowStyle.TitleBar>
         <themes:UniversalTitleBar ForegroundColor="White" InactiveForegroundColor="#9fd3ed"
                                   ButtonForegroundColor="White" ButtonInactiveForegroundColor="#9fd3ed"
@@ -59,6 +62,16 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Storyboard x:Key="Storyboard.GotoGeneratingPage" Duration="0:0:1">
+            <DoubleAnimation Storyboard.TargetName="OutputTextBlock" Storyboard.TargetProperty="Opacity" />
+            <DoubleAnimation Storyboard.TargetName="CopyrightTextBlock" Storyboard.TargetProperty="Opacity" />
+            <DoubleAnimation Storyboard.TargetName="SettingPage" Storyboard.TargetProperty="Opacity" />
+        </Storyboard>
+        <Storyboard x:Key="Storyboard.GotoSettingPage" Duration="0:0:1">
+            <DoubleAnimation Storyboard.TargetName="OutputTextBlock" Storyboard.TargetProperty="Opacity" To="0" />
+            <DoubleAnimation Storyboard.TargetName="CopyrightTextBlock" Storyboard.TargetProperty="Opacity" To="0" />
+            <DoubleAnimation Storyboard.TargetName="SettingPage" Storyboard.TargetProperty="Opacity" To="1" />
+        </Storyboard>
     </Window.Resources>
     <Grid x:Name="RootPanel">
         <Grid.RowDefinitions>
@@ -68,7 +81,7 @@
         </Grid.RowDefinitions>
         <Grid x:Name="TitlePanel" Grid.Row="0" Background="#289dd9">
         </Grid>
-        <Grid x:Name="ContentPanel" Grid.Row="1" Grid.RowSpan="2" Background="White">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Grid.RowSpan="2" Background="#e0ffffff">
             <Grid x:Name="GeneratingPanel">
                 <Grid x:Name="EffectPanel" Focusable="True" FocusVisualStyle="{x:Null}" />
                 <Viewbox StretchDirection="DownOnly">
@@ -77,24 +90,77 @@
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            FontWeight="Bold" FontSize="64" />
                 </Viewbox>
+                <TextBlock x:Name="CopyrightTextBlock" Margin="0 16" TextAlignment="Center" Foreground="#A6BEC7"
+                           HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                           TextWrapping="WrapWithOverflow"
+                           Text="blog.walterlv.com" ToolTip="关于 吕毅"
+                           MouseEnter="AboutLink_MouseEnter" MouseLeave="AboutLink_MouseLeave"
+                           MouseLeftButtonDown="HandledElement_MouseDown" MouseLeftButtonUp="AboutLink_MouseUp">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="TextDecorations" Value="Underline" />
+                                    <Setter Property="Cursor" Value="Hand" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
             </Grid>
-            <TextBlock Margin="0 16" TextAlignment="Center" Foreground="#A6BEC7"
-                       HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                       TextWrapping="WrapWithOverflow"
-                       Text="walterlv.com" ToolTip="关于 吕毅"
-                       MouseEnter="AboutLink_MouseEnter" MouseLeave="AboutLink_MouseLeave"
-                       MouseLeftButtonDown="HandledElement_MouseDown" MouseLeftButtonUp="AboutLink_MouseUp">
-                <TextBlock.Style>
+            <ScrollViewer x:Name="SettingPage" Opacity="0">
+                <ScrollViewer.Resources>
                     <Style TargetType="TextBlock">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="TextDecorations" Value="Underline" />
-                                <Setter Property="Cursor" Value="Hand" />
-                            </Trigger>
-                        </Style.Triggers>
+                        <Setter Property="Margin" Value="0 8" />
                     </Style>
-                </TextBlock.Style>
-            </TextBlock>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Margin" Value="0 -4 0 16" />
+                        <Setter Property="Height" Value="32" />
+                        <Setter Property="FontSize" Value="16" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Padding" Value="4 0" />
+                    </Style>
+                </ScrollViewer.Resources>
+                <StackPanel HorizontalAlignment="Center" Margin="0 60 0 40" MinWidth="320" TextBlock.FontSize="16">
+                    <TextBlock FontSize="24" Text="生成数量" />
+                    <TextBlock Text="最少单词数" />
+                    <TextBox Text="2" />
+                    <TextBlock Text="最多单词数" />
+                    <TextBox Text="5" />
+                    <TextBlock Text="单词最少音节数" />
+                    <TextBox Text="2" />
+                    <TextBlock Text="单词最多音节数" />
+                    <TextBox Text="4" />
+                    <TextBlock Text="最少总音节数" />
+                    <TextBox Text="4" />
+                    <TextBlock Text="最多总音节数" />
+                    <TextBox Text="12" />
+                    <TextBlock FontSize="24" Text="单词个数权重" />
+                    <TextBlock Text="1 个单词" />
+                    <TextBox Text="2" />
+                    <TextBlock Text="2 个单词" />
+                    <TextBox Text="4" />
+                    <TextBlock Text="3 个单词" />
+                    <TextBox Text="4" />
+                    <TextBlock Text="4 个单词" />
+                    <TextBox Text="1" />
+                    <TextBlock Text="5 个单词" />
+                    <TextBox Text="1" />
+                    <TextBlock FontSize="24" Text="单词内音节数权重" />
+                    <TextBlock Text="每单词 1 个音节" />
+                    <TextBox Text="1" />
+                    <TextBlock Text="每单词 2 个音节" />
+                    <TextBox Text="4" />
+                    <TextBlock Text="每单词 3 个音节" />
+                    <TextBox Text="4" />
+                    <TextBlock Text="每单词 4 个音节" />
+                    <TextBox Text="2" />
+                    <TextBlock Text="每单词 5 个音节" />
+                    <TextBox Text="1" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <Grid Grid.Row="1" Grid.RowSpan="2">
         </Grid>
         <Grid x:Name="HeaderPanel" Grid.Row="1">
             <StackPanel Orientation="Horizontal" Margin="12 0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
@@ -102,13 +168,13 @@
                     <Border.BorderBrush>
                         <effects:RevealBorderBrush Color="#5cb6e3" />
                     </Border.BorderBrush>
-                    <RadioButton Margin="-1" Content="标识符生成器" IsChecked="True" />
+                    <RadioButton Margin="-1" GroupName="PageSelector" Content="标识符生成器" IsChecked="True" Checked="GeneratingPage_Checked" />
                 </Border>
                 <Border Margin="-1 0 0 0" BorderThickness="1" SnapsToDevicePixels="True">
                     <Border.BorderBrush>
                         <effects:RevealBorderBrush Color="#5cb6e3" />
                     </Border.BorderBrush>
-                    <RadioButton Margin="-1" Content="设置" />
+                    <RadioButton Margin="-1" GroupName="PageSelector" Content="设置" Checked="SettingPage_Checked" />
                 </Border>
             </StackPanel>
             <Border Width="24" Height="24" Margin="11" HorizontalAlignment="Right" VerticalAlignment="Top"
