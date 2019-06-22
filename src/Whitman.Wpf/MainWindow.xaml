@@ -9,31 +9,75 @@
         mc:Ignorable="d" Title="Whitman" Width="1000" Height="640"
         Activated="OnActivated" Deactivated="OnDeactivated"
         Background="Transparent" Padding="-1" Icon="Properties/App.ico"
-        Style="{StaticResource Style.Window.Universal}">
+        Style="{StaticResource Style.Window.Universal}"
+        FontFamily="Microsoft YaHei">
     <themes:UniversalWindowStyle.TitleBar>
         <themes:UniversalTitleBar ForegroundColor="White" InactiveForegroundColor="#9fd3ed"
                                   ButtonForegroundColor="White" ButtonInactiveForegroundColor="#9fd3ed"
-                                  ButtonHoverForeground="White" ButtonHoverBackground="#289dd9"
+                                  ButtonHoverForeground="White" ButtonHoverBackground="#50afe0"
                                   ButtonPressedForeground="White" ButtonPressedBackground="#145587" />
     </themes:UniversalWindowStyle.TitleBar>
     <themes:UniversalWindowStyle.Window>
         <themes:UniversalWindow FrameColor="Transparent" InactiveFrameColor="Transparent" />
     </themes:UniversalWindowStyle.Window>
+    <Window.Resources>
+        <Style TargetType="RadioButton">
+            <Setter Property="BorderBrush" Value="#C0279EDA" />
+            <Setter Property="BorderThickness" Value="0 0 0 4" />
+            <Setter Property="Padding" Value="16 4" />
+            <Setter Property="Margin" Value="4 0" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Foreground" Value="#289dd9" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid x:Name="Rt">
+                            <Border x:Name="Bd" Visibility="Hidden"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="{TemplateBinding BorderBrush}">
+                            </Border>
+                            <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                    Padding="{TemplateBinding Padding}">
+                                <TextBlock x:Name="Tb" Opacity="0.33" Text="{TemplateBinding Content}" />
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Tb" Property="Opacity" Value="0.5" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Bd" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="Tb" Property="Opacity" Value="1" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="Rt" Property="Background" Value="#10279EDA" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid x:Name="RootPanel">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
-            <RowDefinition Height="80" />
+            <RowDefinition Height="48" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid x:Name="TitlePanel" Grid.Row="0" Background="#289dd9">
         </Grid>
         <Grid x:Name="ContentPanel" Grid.Row="1" Grid.RowSpan="2" Background="White">
-            <Viewbox StretchDirection="DownOnly">
-                <TextBlock x:Name="OutputTextBlock" Margin="64" TextAlignment="Center"
+            <Grid x:Name="GeneratingPanel">
+                <Grid x:Name="EffectPanel" Focusable="True" FocusVisualStyle="{x:Null}" />
+                <Viewbox StretchDirection="DownOnly">
+                    <TextBlock x:Name="OutputTextBlock" Margin="64" TextAlignment="Center"
                            Text="在文本框中&#xD;按下 Ctrl+, 开始" Foreground="#145587"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            FontWeight="Bold" FontSize="64" />
-            </Viewbox>
+                </Viewbox>
+            </Grid>
             <TextBlock Margin="0 16" TextAlignment="Center" Foreground="#A6BEC7"
                        HorizontalAlignment="Center" VerticalAlignment="Bottom"
                        TextWrapping="WrapWithOverflow"
@@ -53,15 +97,9 @@
             </TextBlock>
         </Grid>
         <Grid x:Name="HeaderPanel" Grid.Row="1">
-            <StackPanel Orientation="Horizontal">
-                <Border BorderThickness="0 0 0 4" BorderBrush="#C0279EDA" Padding="16 4"
-                        Margin="12 0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                    <TextBlock FontSize="40" FontWeight="Thin" Foreground="#C0279EDA" Text="标识符生成器" />
-                </Border>
-                <Border BorderThickness="0 0 0 4" BorderBrush="Transparent" Padding="16 4"
-                        Margin="12 0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                    <TextBlock FontSize="40" FontWeight="Thin" Foreground="#30279EDA" Text="设置" />
-                </Border>
+            <StackPanel Orientation="Horizontal" Margin="8 0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                <RadioButton Content="标识符生成器" IsChecked="True" />
+                <RadioButton Content="设置" />
             </StackPanel>
             <Border Width="24" Height="24" Margin="11" HorizontalAlignment="Right" VerticalAlignment="Top"
                     CornerRadius="16" BorderThickness="1" Background="Transparent"

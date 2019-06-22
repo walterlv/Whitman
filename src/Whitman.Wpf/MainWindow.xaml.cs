@@ -18,11 +18,10 @@ namespace Walterlv.Whitman
             Application.Current.Exit += (s, e) => _keyboardHook.Stop();
             _keyboardHook.CtrlShift += (s, e) => Generate(true, true);
             _keyboardHook.Ctrl += (s, e) => Generate(false, true);
-            ContentPanel.MouseLeftButtonDown += (s, e) => Generate(true, false);
-            ContentPanel.MouseRightButtonDown += (s, e) => Generate(false, false);
+            GeneratingPanel.MouseLeftButtonDown += (s, e) => Generate(true, false);
+            GeneratingPanel.MouseRightButtonDown += (s, e) => Generate(false, false);
 
             UpdateCircles(0);
-            //Dispatcher.InvokeAsync(() => Generate(true, false));
         }
 
         private void Generate(bool pascal = true, bool write = false)
@@ -47,7 +46,7 @@ namespace Walterlv.Whitman
 
         private void OnActivated(object sender, EventArgs e)
         {
-            foreach (var circle in ContentPanel.Children.OfType<MovingCircle>())
+            foreach (var circle in EffectPanel.Children.OfType<MovingCircle>())
             {
                 circle.IsAnimationEnabled = true;
             }
@@ -55,7 +54,7 @@ namespace Walterlv.Whitman
 
         private void OnDeactivated(object sender, EventArgs e)
         {
-            foreach (var circle in ContentPanel.Children.OfType<MovingCircle>())
+            foreach (var circle in EffectPanel.Children.OfType<MovingCircle>())
             {
                 circle.IsAnimationEnabled = false;
             }
@@ -73,7 +72,7 @@ namespace Walterlv.Whitman
 
         private void UpdateCircles(int count)
         {
-            var oldValue = ContentPanel.Children.OfType<MovingCircle>().Count();
+            var oldValue = EffectPanel.Children.OfType<MovingCircle>().Count();
             var newValue = count;
             _randomIdentifier.WordCount = newValue;
             newValue = newValue <= 0 ? 3 : newValue;
@@ -82,18 +81,18 @@ namespace Walterlv.Whitman
             {
                 for (var i = newValue; i < oldValue; i++)
                 {
-                    ContentPanel.Children.RemoveAt(newValue);
+                    EffectPanel.Children.RemoveAt(newValue);
                 }
             }
             else if (newValue > oldValue)
             {
                 for (var i = oldValue; i < newValue; i++)
                 {
-                    ContentPanel.Children.Insert(oldValue, new MovingCircle());
+                    EffectPanel.Children.Insert(oldValue, new MovingCircle());
                 }
             }
 
-            var circles = ContentPanel.Children.OfType<MovingCircle>().ToList();
+            var circles = EffectPanel.Children.OfType<MovingCircle>().ToList();
             for (var i = 0; i < circles.Count; i++)
             {
                 var circle = circles[i];
