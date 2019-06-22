@@ -4,7 +4,7 @@ using System.Windows.Threading;
 
 namespace Whitman.Configs
 {
-    internal class GeneratingConfig : INotifyPropertyChanged
+    public class GeneratingConfig : INotifyPropertyChanged
     {
         private readonly Dispatcher _dispatcher;
         private int _minimalWordCount = 2;
