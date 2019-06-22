@@ -2,27 +2,27 @@
 using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 
-namespace Whitman.Wpf.Configs
+namespace Whitman.Configs
 {
     internal class GeneratingConfig : INotifyPropertyChanged
     {
         private readonly Dispatcher _dispatcher;
-        private int _minimalWordCount;
-        private int _maximumWordCount;
-        private int _minimalSyllableCount;
-        private int _maximumSyllableCount;
-        private int _minimalTotalSyllableCount;
-        private int _maximumTotalSyllableCount;
-        private int _word1Weight;
-        private int _word2Weight;
-        private int _word3Weight;
-        private int _word4Weight;
-        private int _word5Weight;
-        private int _syllable1Weight;
-        private int _syllable2Weight;
-        private int _syllable3Weight;
-        private int _syllable4Weight;
-        private int _syllable5Weight;
+        private int _minimalWordCount = 2;
+        private int _maximumWordCount = 5;
+        private int _minimalSyllableCount = 2;
+        private int _maximumSyllableCount = 4;
+        private int _minimalTotalSyllableCount = 4;
+        private int _maximumTotalSyllableCount = 12;
+        private int _word1Weight = 2;
+        private int _word2Weight = 4;
+        private int _word3Weight = 4;
+        private int _word4Weight = 1;
+        private int _word5Weight = 1;
+        private int _syllable1Weight = 1;
+        private int _syllable2Weight = 4;
+        private int _syllable3Weight = 4;
+        private int _syllable4Weight = 2;
+        private int _syllable5Weight = 1;
 
         public GeneratingConfig() => _dispatcher = Dispatcher.CurrentDispatcher;
 

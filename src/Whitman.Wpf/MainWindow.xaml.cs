@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using Whitman.Configs;
 
 namespace Walterlv.Whitman
 {
@@ -12,6 +13,7 @@ namespace Walterlv.Whitman
     {
         public MainWindow()
         {
+            DataContext = new GeneratingConfig();
             InitializeComponent();
 
             _keyboardHook = new KeyboardHook();

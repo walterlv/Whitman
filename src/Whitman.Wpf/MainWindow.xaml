@@ -126,41 +126,41 @@
                     <TextBlock FontSize="24" Text="生成数量" />
                     <TextBlock Margin="0 -4 0 8" FontSize="14" Text="每一个标识符由若干个单词组成，每一个单词中又有若干个音节。你可以在这里设置生成的标识符需要包含多少个单词，其中的每一个单词包含多少个音节。" />
                     <TextBlock Text="最少单词数" />
-                    <TextBox x:Name="FirstFocusableSettingItem" Text="2" />
+                    <TextBox x:Name="FirstFocusableSettingItem" Text="{Binding MinimalWordCount, Mode=TwoWay}" />
                     <TextBlock Text="最多单词数" />
-                    <TextBox Text="5" />
+                    <TextBox Text="{Binding MaximumWordCount, Mode=TwoWay}" />
                     <TextBlock Text="单词最少音节数" />
-                    <TextBox Text="2" />
+                    <TextBox Text="{Binding MinimalSyllableCount, Mode=TwoWay}" />
                     <TextBlock Text="单词最多音节数" />
-                    <TextBox Text="4" />
+                    <TextBox Text="{Binding MaximumSyllableCount, Mode=TwoWay}" />
                     <TextBlock Text="最少总音节数" />
-                    <TextBox Text="4" />
+                    <TextBox Text="{Binding MinimalTotalSyllableCount, Mode=TwoWay}" />
                     <TextBlock Text="最多总音节数" />
-                    <TextBox Text="12" />
+                    <TextBox Text="{Binding MaximumTotalSyllableCount, Mode=TwoWay}" />
                     <TextBlock FontSize="24" Text="单词个数权重" />
                     <TextBlock Margin="0 -4 0 8" FontSize="14" Text="生成的单词个数是随机的，因此你需要指定生成不同单词数量时的权重。如果你只希望生成一种单词数量，请将其他权重都设成 0。" />
                     <TextBlock Text="1 个单词" />
-                    <TextBox Text="2" />
+                    <TextBox Text="{Binding Word1Weight, Mode=TwoWay}" />
                     <TextBlock Text="2 个单词" />
-                    <TextBox Text="4" />
+                    <TextBox Text="{Binding Word2Weight, Mode=TwoWay}" />
                     <TextBlock Text="3 个单词" />
-                    <TextBox Text="4" />
+                    <TextBox Text="{Binding Word3Weight, Mode=TwoWay}" />
                     <TextBlock Text="4 个单词" />
-                    <TextBox Text="1" />
+                    <TextBox Text="{Binding Word4Weight, Mode=TwoWay}" />
                     <TextBlock Text="5 个单词" />
-                    <TextBox Text="1" />
+                    <TextBox Text="{Binding Word5Weight, Mode=TwoWay}" />
                     <TextBlock FontSize="24" Text="单词内音节数权重" />
                     <TextBlock Margin="0 -4 0 8" FontSize="14" Text="每个单词中的音节个数是随机的，因此你需要指定生成音节数量时的权重。如果你只希望生成一种音节个数，请将其他权重都设成 0。" />
                     <TextBlock Text="每单词 1 个音节" />
-                    <TextBox Text="1" />
+                    <TextBox Text="{Binding Syllable1Weight, Mode=TwoWay}" />
                     <TextBlock Text="每单词 2 个音节" />
-                    <TextBox Text="4" />
+                    <TextBox Text="{Binding Syllable2Weight, Mode=TwoWay}" />
                     <TextBlock Text="每单词 3 个音节" />
-                    <TextBox Text="4" />
+                    <TextBox Text="{Binding Syllable3Weight, Mode=TwoWay}" />
                     <TextBlock Text="每单词 4 个音节" />
-                    <TextBox Text="2" />
+                    <TextBox Text="{Binding Syllable4Weight, Mode=TwoWay}" />
                     <TextBlock Text="每单词 5 个音节" />
-                    <TextBox Text="1" />
+                    <TextBox Text="{Binding Syllable5Weight, Mode=TwoWay}" />
                     <TextBlock Margin="0 32 0 12" FontSize="16" Foreground="#145587" Text="切换到生成标识符的主页面可以保存此页的设置以便下次打开软件时使用。" />
                 </StackPanel>
             </ScrollViewer>
