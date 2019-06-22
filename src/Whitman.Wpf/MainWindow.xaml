@@ -62,15 +62,13 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Storyboard x:Key="Storyboard.GotoGeneratingPage" Duration="0:0:1">
-            <DoubleAnimation Storyboard.TargetName="OutputTextBlock" Storyboard.TargetProperty="Opacity" />
-            <DoubleAnimation Storyboard.TargetName="CopyrightTextBlock" Storyboard.TargetProperty="Opacity" />
-            <DoubleAnimation Storyboard.TargetName="SettingPage" Storyboard.TargetProperty="Opacity" />
+        <Storyboard x:Key="Storyboard.GotoGeneratingPage">
+            <DoubleAnimation Storyboard.TargetName="OutputTextBlock" Storyboard.TargetProperty="Opacity" Duration="0:0:2.0" />
+            <DoubleAnimation Storyboard.TargetName="SettingPage" Storyboard.TargetProperty="Opacity" Duration="0:0:0.6" />
         </Storyboard>
-        <Storyboard x:Key="Storyboard.GotoSettingPage" Duration="0:0:1">
-            <DoubleAnimation Storyboard.TargetName="OutputTextBlock" Storyboard.TargetProperty="Opacity" To="0" />
-            <DoubleAnimation Storyboard.TargetName="CopyrightTextBlock" Storyboard.TargetProperty="Opacity" To="0" />
-            <DoubleAnimation Storyboard.TargetName="SettingPage" Storyboard.TargetProperty="Opacity" To="1" />
+        <Storyboard x:Key="Storyboard.GotoSettingPage">
+            <DoubleAnimation Storyboard.TargetName="OutputTextBlock" Storyboard.TargetProperty="Opacity" Duration="0:0:0.6" To="0" />
+            <DoubleAnimation Storyboard.TargetName="SettingPage" Storyboard.TargetProperty="Opacity" Duration="0:0:1.2" To="1" />
         </Storyboard>
     </Window.Resources>
     <Grid x:Name="RootPanel">
@@ -82,7 +80,7 @@
         <Grid x:Name="TitlePanel" Grid.Row="0" Background="#289dd9">
         </Grid>
         <Grid x:Name="ContentPanel" Grid.Row="1" Grid.RowSpan="2" Background="#e0ffffff">
-            <Grid x:Name="GeneratingPanel">
+            <Grid x:Name="GeneratingPage">
                 <Grid x:Name="EffectPanel" Focusable="True" FocusVisualStyle="{x:Null}" />
                 <Viewbox StretchDirection="DownOnly">
                     <TextBlock x:Name="OutputTextBlock" Margin="64" TextAlignment="Center"
@@ -90,10 +88,11 @@
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            FontWeight="Bold" FontSize="64" />
                 </Viewbox>
-                <TextBlock x:Name="CopyrightTextBlock" Margin="0 16" TextAlignment="Center" Foreground="#A6BEC7"
-                           HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                <TextBlock x:Name="CopyrightTextBlock" Margin="16 12" TextAlignment="Left" Foreground="#A6BEC7"
+                           HorizontalAlignment="Left" VerticalAlignment="Bottom"
                            TextWrapping="WrapWithOverflow"
-                           Text="blog.walterlv.com" ToolTip="关于 吕毅"
+                           Text="https://blog.walterlv.com/" ToolTip="关于 吕毅"
+                           Cursor="Hand"
                            MouseEnter="AboutLink_MouseEnter" MouseLeave="AboutLink_MouseLeave"
                            MouseLeftButtonDown="HandledElement_MouseDown" MouseLeftButtonUp="AboutLink_MouseUp">
                     <TextBlock.Style>
@@ -101,30 +100,33 @@
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="TextDecorations" Value="Underline" />
-                                    <Setter Property="Cursor" Value="Hand" />
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
             </Grid>
-            <ScrollViewer x:Name="SettingPage" Opacity="0">
+            <ScrollViewer x:Name="SettingPage" Margin="0 48 0 0" IsHitTestVisible="False" IsEnabled="False" Opacity="0">
                 <ScrollViewer.Resources>
                     <Style TargetType="TextBlock">
                         <Setter Property="Margin" Value="0 8" />
+                        <Setter Property="TextWrapping" Value="Wrap" />
                     </Style>
                     <Style TargetType="TextBox">
                         <Setter Property="Margin" Value="0 -4 0 16" />
                         <Setter Property="Height" Value="32" />
                         <Setter Property="FontSize" Value="16" />
+                        <Setter Property="HorizontalAlignment" Value="Left" />
                         <Setter Property="VerticalContentAlignment" Value="Center" />
                         <Setter Property="Padding" Value="4 0" />
+                        <Setter Property="Width" Value="320" />
                     </Style>
                 </ScrollViewer.Resources>
-                <StackPanel HorizontalAlignment="Center" Margin="0 60 0 40" MinWidth="320" TextBlock.FontSize="16">
+                <StackPanel HorizontalAlignment="Center" Margin="200 20 80 0" TextBlock.FontSize="16">
                     <TextBlock FontSize="24" Text="生成数量" />
+                    <TextBlock Margin="0 -4 0 8" FontSize="14" Text="每一个标识符由若干个单词组成，每一个单词中又有若干个音节。你可以在这里设置生成的标识符需要包含多少个单词，其中的每一个单词包含多少个音节。" />
                     <TextBlock Text="最少单词数" />
-                    <TextBox Text="2" />
+                    <TextBox x:Name="FirstFocusableSettingItem" Text="2" />
                     <TextBlock Text="最多单词数" />
                     <TextBox Text="5" />
                     <TextBlock Text="单词最少音节数" />
@@ -136,6 +138,7 @@
                     <TextBlock Text="最多总音节数" />
                     <TextBox Text="12" />
                     <TextBlock FontSize="24" Text="单词个数权重" />
+                    <TextBlock Margin="0 -4 0 8" FontSize="14" Text="生成的单词个数是随机的，因此你需要指定生成不同单词数量时的权重。如果你只希望生成一种单词数量，请将其他权重都设成 0。" />
                     <TextBlock Text="1 个单词" />
                     <TextBox Text="2" />
                     <TextBlock Text="2 个单词" />
@@ -147,6 +150,7 @@
                     <TextBlock Text="5 个单词" />
                     <TextBox Text="1" />
                     <TextBlock FontSize="24" Text="单词内音节数权重" />
+                    <TextBlock Margin="0 -4 0 8" FontSize="14" Text="每个单词中的音节个数是随机的，因此你需要指定生成音节数量时的权重。如果你只希望生成一种音节个数，请将其他权重都设成 0。" />
                     <TextBlock Text="每单词 1 个音节" />
                     <TextBox Text="1" />
                     <TextBlock Text="每单词 2 个音节" />
@@ -157,6 +161,7 @@
                     <TextBox Text="2" />
                     <TextBlock Text="每单词 5 个音节" />
                     <TextBox Text="1" />
+                    <TextBlock Margin="0 32 0 12" FontSize="16" Foreground="#145587" Text="切换到生成标识符的主页面可以保存此页的设置以便下次打开软件时使用。" />
                 </StackPanel>
             </ScrollViewer>
         </Grid>
@@ -164,16 +169,10 @@
         </Grid>
         <Grid x:Name="HeaderPanel" Grid.Row="1">
             <StackPanel Orientation="Horizontal" Margin="12 0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                <Border BorderThickness="1" SnapsToDevicePixels="True">
-                    <Border.BorderBrush>
-                        <effects:RevealBorderBrush Color="#5cb6e3" />
-                    </Border.BorderBrush>
+                <Border BorderThickness="1" BorderBrush="{effects:RevealBorderBrush #5cb6e3}">
                     <RadioButton Margin="-1" GroupName="PageSelector" Content="标识符生成器" IsChecked="True" Checked="GeneratingPage_Checked" />
                 </Border>
-                <Border Margin="-1 0 0 0" BorderThickness="1" SnapsToDevicePixels="True">
-                    <Border.BorderBrush>
-                        <effects:RevealBorderBrush Color="#5cb6e3" />
-                    </Border.BorderBrush>
+                <Border Margin="-1 0 0 0" BorderThickness="1" BorderBrush="{effects:RevealBorderBrush #5cb6e3}">
                     <RadioButton Margin="-1" GroupName="PageSelector" Content="设置" Checked="SettingPage_Checked" />
                 </Border>
             </StackPanel>

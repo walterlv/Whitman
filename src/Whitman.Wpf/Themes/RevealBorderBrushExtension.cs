@@ -26,6 +26,7 @@ namespace Walterlv.Effects
         /// <summary>
         /// Gets or sets a value that specifies the base background color for the brush.
         /// </summary>
+        [ConstructorArgument("color")]
         public Color Color { get; set; } = Colors.White;
 
         public Transform Transform { get; set; } = Transform.Identity;
@@ -35,6 +36,15 @@ namespace Walterlv.Effects
         public double Opacity { get; set; } = 1.0;
 
         public double Radius { get; set; } = 100.0;
+
+        public RevealBorderBrushExtension()
+        {
+        }
+
+        public RevealBorderBrushExtension(Color color)
+        {
+            Color = color;
+        }
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {

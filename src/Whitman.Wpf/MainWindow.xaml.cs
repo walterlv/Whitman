@@ -19,15 +19,16 @@ namespace Walterlv.Whitman
             Application.Current.Exit += (s, e) => _keyboardHook.Stop();
             _keyboardHook.CtrlShift += (s, e) => Generate(true, true);
             _keyboardHook.Ctrl += (s, e) => Generate(false, true);
-            GeneratingPanel.MouseLeftButtonDown += (s, e) => Generate(true, false);
-            GeneratingPanel.MouseRightButtonDown += (s, e) => Generate(false, false);
+            GeneratingPage.MouseLeftButtonDown += (s, e) => Generate(true, false);
+            GeneratingPage.MouseRightButtonDown += (s, e) => Generate(false, false);
+            GeneratingPage.MouseLeftButtonDown += (s, e) => EffectPanel.Focus();
 
             UpdateCircles(0);
         }
 
         public bool IsInSetting
         {
-            get => !double.IsNaN(EffectPanel.Width);
+            get => SettingPage.IsHitTestVisible;
             set
             {
                 if (Equals(IsInSetting, value))
@@ -37,6 +38,9 @@ namespace Walterlv.Whitman
 
                 if (value)
                 {
+                    GeneratingPage.IsHitTestVisible = false;
+                    SettingPage.IsHitTestVisible = true;
+                    SettingPage.IsEnabled = true;
                     ((Storyboard)FindResource("Storyboard.GotoSettingPage")).Begin();
                     EffectPanel.HorizontalAlignment = HorizontalAlignment.Left;
                     EffectPanel.VerticalAlignment = VerticalAlignment.Top;
@@ -45,6 +49,9 @@ namespace Walterlv.Whitman
                 }
                 else
                 {
+                    GeneratingPage.IsHitTestVisible = true;
+                    SettingPage.IsHitTestVisible = false;
+                    SettingPage.IsEnabled = false;
                     ((Storyboard)FindResource("Storyboard.GotoGeneratingPage")).Begin();
                     EffectPanel.ClearValue(HorizontalAlignmentProperty);
                     EffectPanel.ClearValue(VerticalAlignmentProperty);
@@ -93,11 +100,14 @@ namespace Walterlv.Whitman
         private void GeneratingPage_Checked(object sender, RoutedEventArgs e)
         {
             IsInSetting = false;
+            EffectPanel.Focus();
         }
 
         private void SettingPage_Checked(object sender, RoutedEventArgs e)
         {
             IsInSetting = true;
+            FirstFocusableSettingItem.Focus();
+            SettingPage.ScrollToTop();
         }
 
         private readonly KeyboardHook _keyboardHook;
