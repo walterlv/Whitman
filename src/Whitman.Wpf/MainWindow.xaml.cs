@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using Whitman.Configs;
@@ -183,6 +184,14 @@ namespace Walterlv.Whitman
         private void HandledElement_MouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void SettingTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (e.Source is TextBox textBox)
+            {
+                textBox.SelectAll();
+            }
         }
     }
 }

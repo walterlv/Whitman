@@ -122,7 +122,8 @@
                         <Setter Property="Width" Value="320" />
                     </Style>
                 </ScrollViewer.Resources>
-                <StackPanel HorizontalAlignment="Center" Margin="200 20 80 0" TextBlock.FontSize="16">
+                <StackPanel HorizontalAlignment="Center" Margin="200 20 80 0" TextBlock.FontSize="16"
+                            TextBox.GotFocus="SettingTextBox_GotFocus">
                     <TextBlock FontSize="24" Text="生成数量" />
                     <TextBlock Margin="0 -4 0 8" FontSize="14" Text="每一个标识符由若干个单词组成，每一个单词中又有若干个音节。你可以在这里设置生成的标识符需要包含多少个单词，其中的每一个单词包含多少个音节。" />
                     <TextBlock Text="最少单词数" />
