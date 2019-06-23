@@ -6,6 +6,8 @@
     <ApplicationManifest>Properties\App.manifest</ApplicationManifest>
     <ApplicationIcon>Properties\App.ico</ApplicationIcon>
     <StartupObject>Walterlv.Whitman.Program</StartupObject>
+    <AssemblyName>Walterlv.Whitman</AssemblyName>
+    <RootNamespace>Walterlv.Whitman</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Whitman.Uwp\**" />

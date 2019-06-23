@@ -13,7 +13,7 @@ namespace Walterlv.Whitman
         public GeneratingConfig Configs
         {
             get => _configs;
-            set => _configs = value.IsValid ? value : throw new ArgumentException("用于生成随机标识符的生成配置必须是可以被计算出来的合理配置");
+            set => _configs = value.CheckValid() ? value : throw new ArgumentException("用于生成随机标识符的生成配置必须是可以被计算出来的合理配置");
         }
 
         public string Generate(bool pascal)

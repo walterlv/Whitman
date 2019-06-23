@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -6,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using Walterlv.Whitman.Configs;
 using Whitman.Configs;
 
 namespace Walterlv.Whitman
@@ -14,27 +17,32 @@ namespace Walterlv.Whitman
     {
         public MainWindow()
         {
-            DataContext = new GeneratingConfig();
             InitializeComponent();
-
             _keyboardHook = new KeyboardHook();
+            ContentRendered += OnContentRendered;
+            Closing += OnClosing;
+            UpdateCircles(0);
+        }
+
+        private async void OnContentRendered(object sender, EventArgs e)
+        {
             _keyboardHook.Start();
-            Application.Current.Exit += (s, e) => _keyboardHook.Stop();
             _keyboardHook.CtrlShift += (s, e) => Generate(true, true);
             _keyboardHook.Ctrl += (s, e) => Generate(false, true);
             GeneratingPage.MouseLeftButtonDown += (s, e) => Generate(true, false);
             GeneratingPage.MouseRightButtonDown += (s, e) => Generate(false, false);
             GeneratingPage.MouseLeftButtonDown += (s, e) => EffectPanel.Focus();
-
-            UpdateCircles(0);
+            DataContext = await FileConfiguration.ReadConfigAsync().ConfigureAwait(false);
         }
 
-        public bool IsInSetting
+        private void OnClosing(object sender, CancelEventArgs e) => _keyboardHook.Stop();
+
+        public bool IsInSettingPage
         {
             get => SettingPage.IsHitTestVisible;
             set
             {
-                if (Equals(IsInSetting, value))
+                if (Equals(IsInSettingPage, value))
                 {
                     return;
                 }
@@ -64,26 +72,6 @@ namespace Walterlv.Whitman
             }
         }
 
-        private void Generate(bool pascal = true, bool write = false)
-        {
-            var text = _randomIdentifier.Generate(pascal);
-            OutputTextBlock.Text = text;
-            if (write)
-            {
-                _keyboardHook.Send(text);
-            }
-            else
-            {
-                try
-                {
-                    Clipboard.SetData(DataFormats.Text, text);
-                }
-                catch (COMException ex)
-                {
-                }
-            }
-        }
-
         private void OnActivated(object sender, EventArgs e)
         {
             foreach (var circle in EffectPanel.Children.OfType<MovingCircle>())
@@ -100,21 +88,29 @@ namespace Walterlv.Whitman
             }
         }
 
-        private void GeneratingPage_Checked(object sender, RoutedEventArgs e)
+        private async void GeneratingPage_Checked(object sender, RoutedEventArgs e)
         {
-            IsInSetting = false;
+            IsInSettingPage = false;
             EffectPanel.Focus();
+
+            var config = (GeneratingConfig)DataContext;
+            if (config?.CheckValid() is true)
+            {
+                await FileConfiguration.SaveConfigAsync(config).ConfigureAwait(false);
+            }
         }
 
         private void SettingPage_Checked(object sender, RoutedEventArgs e)
         {
-            IsInSetting = true;
+            IsInSettingPage = true;
             FirstFocusableSettingItem.Focus();
             SettingScrollViewer.ScrollToTop();
         }
 
         private readonly KeyboardHook _keyboardHook;
         private readonly RandomIdentifier _randomIdentifier = new RandomIdentifier();
+        private bool _isInAboutLink;
+        private bool _isInConfigErrorLink;
 
         private void UpdateCircles(int count)
         {
@@ -150,11 +146,11 @@ namespace Walterlv.Whitman
             circles[circles.Count - 1].BrushOpacity = 1.0;
         }
 
-        private bool _isInAboutLink;
-        private bool _isInConfigErrorLink;
+        private void AboutLink_MouseEnter(object sender, MouseEventArgs e)
+            => _isInAboutLink = Mouse.LeftButton != MouseButtonState.Pressed;
 
-        private void AboutLink_MouseEnter(object sender, MouseEventArgs e) => _isInAboutLink = Mouse.LeftButton != MouseButtonState.Pressed;
-        private void AboutLink_MouseLeave(object sender, MouseEventArgs e) => _isInAboutLink = false;
+        private void AboutLink_MouseLeave(object sender, MouseEventArgs e)
+            => _isInAboutLink = false;
 
         private void AboutLink_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -164,8 +160,11 @@ namespace Walterlv.Whitman
             }
         }
 
-        private void ConfigErrorLink_MouseEnter(object sender, MouseEventArgs e) => _isInConfigErrorLink = Mouse.LeftButton != MouseButtonState.Pressed;
-        private void ConfigErrorLink_MouseLeave(object sender, MouseEventArgs e) => _isInConfigErrorLink = false;
+        private void ConfigErrorLink_MouseEnter(object sender, MouseEventArgs e)
+            => _isInConfigErrorLink = Mouse.LeftButton != MouseButtonState.Pressed;
+
+        private void ConfigErrorLink_MouseLeave(object sender, MouseEventArgs e)
+            => _isInConfigErrorLink = false;
 
         private void ConfigErrorLink_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -202,6 +201,26 @@ namespace Walterlv.Whitman
             {
                 ErrorMessageRun.Text = reason;
                 ConfigErrorPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void Generate(bool pascal = true, bool write = false)
+        {
+            var text = _randomIdentifier.Generate(pascal);
+            OutputTextBlock.Text = text;
+            if (write)
+            {
+                _keyboardHook.Send(text);
+            }
+            else
+            {
+                try
+                {
+                    Clipboard.SetData(DataFormats.Text, text);
+                }
+                catch (COMException)
+                {
+                }
             }
         }
     }

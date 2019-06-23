@@ -27,29 +27,26 @@ namespace Whitman.Configs
 
         public GeneratingConfig() => _dispatcher = Dispatcher.CurrentDispatcher;
 
-        public bool IsValid
+        public bool CheckValid()
         {
-            get
+            if (MinimalWordCount <= 0 || MaximumWordCount > 5
+                || MinimalSyllableCount <= 0 || MaximumSyllableCount > 5
+                || MinimalWordCount > MaximumWordCount
+                || MinimalSyllableCount > MaximumSyllableCount)
             {
-                if (MinimalWordCount <= 0 || MaximumWordCount > 5
-                    || MinimalSyllableCount <= 0 || MaximumSyllableCount > 5
-                    || MinimalWordCount > MaximumWordCount
-                    || MinimalSyllableCount > MaximumSyllableCount)
-                {
-                    return false;
-                }
-
-                var minimalTotalSyllableCount = MinimalWordCount * MinimalSyllableCount;
-                var maximumTotalSyllableCount = MaximumWordCount * MaximumSyllableCount;
-
-                if (minimalTotalSyllableCount > MinimalTotalSyllableCount
-                    || maximumTotalSyllableCount < MaximumTotalSyllableCount)
-                {
-                    return false;
-                }
-
-                return true;
+                return false;
             }
+
+            var minimalTotalSyllableCount = MinimalWordCount * MinimalSyllableCount;
+            var maximumTotalSyllableCount = MaximumWordCount * MaximumSyllableCount;
+
+            if (minimalTotalSyllableCount > MinimalTotalSyllableCount
+                || maximumTotalSyllableCount < MaximumTotalSyllableCount)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public string GetInvalidReason()
