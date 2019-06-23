@@ -155,7 +155,14 @@ namespace Walterlv.Whitman
         {
             if (_isInAboutLink)
             {
-                Process.Start("https://walterlv.com/");
+                try
+                {
+                    Process.Start("https://walterlv.com/");
+                }
+                catch
+                {
+                    // 因为启动的是 Url，一般不会出现问题。
+                }
             }
         }
 
