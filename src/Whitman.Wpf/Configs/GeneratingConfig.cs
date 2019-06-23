@@ -28,6 +28,31 @@ namespace Whitman.Configs
 
         public GeneratingConfig() => _dispatcher = Dispatcher.CurrentDispatcher;
 
+        public bool IsValid
+        {
+            get
+            {
+                if (MinimalWordCount <= 0 || MaximumWordCount > 5
+                    || MinimalSyllableCount <= 0 || MaximumSyllableCount > 5
+                    || MinimalWordCount > MaximumWordCount
+                    || MinimalSyllableCount > MaximumSyllableCount)
+                {
+                    return false;
+                }
+
+                var minimalTotalSyllableCount = MinimalWordCount * MinimalSyllableCount;
+                var maximumTotalSyllableCount = MaximumWordCount * MaximumSyllableCount;
+
+                if (minimalTotalSyllableCount > MinimalTotalSyllableCount
+                    || maximumTotalSyllableCount < MaximumTotalSyllableCount)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
         public int MinimalWordCount
         {
             get => _minimalWordCount;

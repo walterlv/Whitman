@@ -10,18 +10,36 @@ namespace Walterlv.Whitman
 {
     public class RandomIdentifier
     {
-        public GeneratingConfig Configs { get; set; } = new GeneratingConfig();
+        public GeneratingConfig Configs
+        {
+            get => _configs;
+            set => _configs = value.IsValid ? value : throw new ArgumentException("用于生成随机标识符的生成配置必须是可以被计算出来的合理配置");
+        }
 
         public string Generate(bool pascal)
         {
             var builder = new StringBuilder();
-            var wordCount = RandomWordCount();
+            while (true)
+            {
+                builder.Clear();
+                var totalCount = RandomGenerate(builder, pascal);
+                if (totalCount >= Configs.MinimalTotalSyllableCount && totalCount <= Configs.MaximumTotalSyllableCount)
+                {
+                    return builder.ToString();
+                }
+                Debug.WriteLine($"[Random] 总音节数 {totalCount} 不在范围 ({Configs.MinimalTotalSyllableCount}, {Configs.MaximumTotalSyllableCount}) 内，重新生成");
+            }
+        }
+
+        private int RandomGenerate(StringBuilder builder, bool pascal)
+        {
+            var wordCount = GetWeightRandom(Configs.MinimalWordCount, Configs.MaximumWordCount, Configs.GetWordWeights());
             var totalSyllableCount = 0;
             Debug.WriteLine($"[Random] 生成单词数 {wordCount}");
 
             for (var i = 0; i < wordCount; i++)
             {
-                var syllableCount = RandomSyllableCount();
+                var syllableCount = GetWeightRandom(Configs.MinimalSyllableCount, Configs.MaximumSyllableCount, Configs.GetSyllableWeights());
                 totalSyllableCount += syllableCount;
                 Debug.WriteLine($"[Random] 生成音节数 {syllableCount}");
 
@@ -40,13 +58,7 @@ namespace Walterlv.Whitman
             }
 
             Debug.WriteLine($"[Random] 总音节数 {totalSyllableCount}");
-            return builder.ToString();
-
-            int RandomWordCount()
-                => GetWeightRandom(Configs.MinimalWordCount, Configs.MaximumWordCount, Configs.GetWordWeights());
-
-            int RandomSyllableCount()
-                => GetWeightRandom(Configs.MinimalSyllableCount, Configs.MaximumSyllableCount, Configs.GetSyllableWeights());
+            return totalSyllableCount;
         }
 
         /// <summary>
@@ -81,6 +93,7 @@ namespace Walterlv.Whitman
         }
 
         private readonly Random _random = new Random();
+        private GeneratingConfig _configs = new GeneratingConfig();
 
         private static readonly List<string> Consonants = new List<string>
         {
