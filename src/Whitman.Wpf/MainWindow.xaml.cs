@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -24,7 +23,7 @@ namespace Walterlv.Whitman
             UpdateCircles(0);
         }
 
-        private async void OnContentRendered(object sender, EventArgs e)
+        private async void OnContentRendered(object sender, EventArgs _)
         {
             _keyboardHook.Start();
             _keyboardHook.CtrlShift += (s, e) => Generate(true, true);

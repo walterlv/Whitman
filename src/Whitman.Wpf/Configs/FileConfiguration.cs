@@ -20,7 +20,7 @@ namespace Walterlv.Whitman.Configs
             {
                 if (File.Exists(_configFile))
                 {
-                    var text = await File.ReadAllTextAsync(_configFile);
+                    var text = File.ReadAllText(_configFile);
                     var config = JsonConvert.DeserializeObject<GeneratingConfig>(text);
                     return config;
                 }
@@ -44,7 +44,7 @@ namespace Walterlv.Whitman.Configs
                     Directory.CreateDirectory(folder);
                 }
                 var text = JsonConvert.SerializeObject(config);
-                await File.WriteAllTextAsync(_configFile, text);
+                File.WriteAllText(_configFile, text);
             }
             catch
             {
