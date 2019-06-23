@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 
@@ -120,6 +122,24 @@ namespace Whitman.Configs
         {
             get => _syllable5Weight;
             set => SetValue(ref _syllable5Weight, value);
+        }
+
+        public IEnumerable<int> GetWordWeights()
+        {
+            yield return Word1Weight;
+            yield return Word2Weight;
+            yield return Word3Weight;
+            yield return Word4Weight;
+            yield return Word5Weight;
+        }
+
+        public IEnumerable<int> GetSyllableWeights()
+        {
+            yield return Syllable1Weight;
+            yield return Syllable2Weight;
+            yield return Syllable3Weight;
+            yield return Syllable4Weight;
+            yield return Syllable5Weight;
         }
 
         private bool SetValue<T>(ref T field, T value, [CallerMemberName] string propertyName = null)

@@ -1,22 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Text;
+using Whitman.Configs;
 
 namespace Walterlv.Whitman
 {
     public class RandomIdentifier
     {
-        public int WordCount { get; set; } = 2;
+        public GeneratingConfig Configs { get; set; } = new GeneratingConfig();
 
         public string Generate(bool pascal)
         {
             var builder = new StringBuilder();
-            var wordCount = WordCount <= 0 ? 4 - (int) Math.Sqrt(_random.Next(0, 9)) : WordCount;
+            var wordCount = RandomWordCount();
+            var totalSyllableCount = 0;
+            Debug.WriteLine($"[Random] 生成单词数 {wordCount}");
+
             for (var i = 0; i < wordCount; i++)
             {
-                var syllableCount = 4 - (int) Math.Sqrt(_random.Next(0, 16));
-                syllableCount = SyllableMapping[syllableCount];
+                var syllableCount = RandomSyllableCount();
+                totalSyllableCount += syllableCount;
+                Debug.WriteLine($"[Random] 生成音节数 {syllableCount}");
+
                 for (var j = 0; j < syllableCount; j++)
                 {
                     var consonant = Consonants[_random.Next(Consonants.Count)];
@@ -31,18 +39,48 @@ namespace Walterlv.Whitman
                 }
             }
 
+            Debug.WriteLine($"[Random] 总音节数 {totalSyllableCount}");
             return builder.ToString();
+
+            int RandomWordCount()
+                => GetWeightRandom(Configs.MinimalWordCount, Configs.MaximumWordCount, Configs.GetWordWeights());
+
+            int RandomSyllableCount()
+                => GetWeightRandom(Configs.MinimalSyllableCount, Configs.MaximumSyllableCount, Configs.GetSyllableWeights());
+        }
+
+        /// <summary>
+        /// 获取带权值的随机值。
+        /// </summary>
+        /// <param name="min">随机时可能取得的最小值（可被取到）。</param>
+        /// <param name="max">随机时可能取得的最大值（可被取到）。</param>
+        /// <param name="weights">随时时所取的可能值中，从 1 开始的权值。如果数组长度不够，那么后续所有数的权值都是 0。</param>
+        /// <returns>一个介于最小值和最大值之间的随机值，以权值来随机。</returns>
+        private int GetWeightRandom(int min, int max, IEnumerable<int> weightEnumerable)
+        {
+            var sourceArray = weightEnumerable.ToArray();
+            var weights = new int[max];
+            Array.Copy(sourceArray, 0, weights, 0, Math.Min(sourceArray.Length, weights.Length));
+            for (var i = 0; i < min - 1; i++)
+            {
+                weights[i] = 0;
+            }
+
+            var sum = weights.Sum();
+            var value = _random.Next(0, sum);
+            for (int i = min; i <= max; i++)
+            {
+                value -= weights[i - 1];
+                if (value < 0)
+                {
+                    return i;
+                }
+            }
+
+            return max;
         }
 
         private readonly Random _random = new Random();
-
-        private static readonly Dictionary<int, int> SyllableMapping = new Dictionary<int, int>
-        {
-            {1, 2},
-            {2, 3},
-            {3, 4},
-            {4, 1},
-        };
 
         private static readonly List<string> Consonants = new List<string>
         {

@@ -127,7 +127,7 @@ namespace Walterlv.Whitman
         {
             var oldValue = EffectPanel.Children.OfType<MovingCircle>().Count();
             var newValue = count;
-            _randomIdentifier.WordCount = newValue;
+            _randomIdentifier.Configs = (GeneratingConfig)DataContext;
             newValue = newValue <= 0 ? 3 : newValue;
 
             if (newValue < oldValue)

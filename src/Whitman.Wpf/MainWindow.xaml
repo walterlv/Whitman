@@ -162,7 +162,7 @@
                     <TextBox Text="{Binding Syllable4Weight, Mode=TwoWay}" />
                     <TextBlock Text="每单词 5 个音节" />
                     <TextBox Text="{Binding Syllable5Weight, Mode=TwoWay}" />
-                    <TextBlock Margin="0 32 0 12" FontSize="16" Foreground="#145587" Text="切换到生成标识符的主页面可以保存此页的设置以便下次打开软件时使用。" />
+                    <TextBlock Margin="0 32 0 12" FontSize="16" Foreground="#145587" Text="切换到主页可以保存。" />
                 </StackPanel>
             </ScrollViewer>
         </Grid>
