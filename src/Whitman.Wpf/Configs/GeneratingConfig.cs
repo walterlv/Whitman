@@ -13,7 +13,7 @@ namespace Whitman.Configs
         private int _minimalSyllableCount = 2;
         private int _maximumSyllableCount = 4;
         private int _minimalTotalSyllableCount = 4;
-        private int _maximumTotalSyllableCount = 12;
+        private int _maximumTotalSyllableCount = 8;
         private int _word1Weight = 2;
         private int _word2Weight = 4;
         private int _word3Weight = 4;
