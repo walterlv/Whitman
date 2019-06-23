@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Threading;
@@ -51,6 +50,24 @@ namespace Whitman.Configs
 
                 return true;
             }
+        }
+
+        public string GetInvalidReason()
+        {
+            if (MinimalWordCount <= 0) return $"生成的单词数量必须至少 1 个。";
+            if (MaximumWordCount > 5) return $"暂时不支持生成大于 5 个单词。";
+            if (MinimalSyllableCount <= 0) return $"每个单词必须至少包含 1 个音节。";
+            if (MaximumSyllableCount > 5) return $"暂时不支持每个单词生成大于 5 个音节。";
+            if (MinimalWordCount > MaximumWordCount) return $"生成的单词数量最小值必须小于或等于最大值。";
+            if (MinimalSyllableCount > MaximumSyllableCount) return $"每个单词的音节数量最小值必须小于或等于最大值。";
+
+            var minimalTotalSyllableCount = MinimalWordCount * MinimalSyllableCount;
+            var maximumTotalSyllableCount = MaximumWordCount * MaximumSyllableCount;
+
+            if (minimalTotalSyllableCount > MinimalTotalSyllableCount) return $"最小单词数与音节数的乘积依然大于最小总音节数。";
+            if (maximumTotalSyllableCount < MaximumTotalSyllableCount) return $"最大单词数与音节数的乘积依然小于最大总音节数。";
+
+            return null;
         }
 
         public int MinimalWordCount
@@ -180,6 +197,8 @@ namespace Whitman.Configs
                 DispatcherPriority.Send);
             return true;
         }
+
+        public GeneratingConfig Clone() => (GeneratingConfig)MemberwiseClone();
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

@@ -106,65 +106,80 @@
                     </TextBlock.Style>
                 </TextBlock>
             </Grid>
-            <ScrollViewer x:Name="SettingPage" Margin="0 48 0 0" IsHitTestVisible="False" IsEnabled="False" Opacity="0">
-                <ScrollViewer.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Margin" Value="0 8" />
-                        <Setter Property="TextWrapping" Value="Wrap" />
-                    </Style>
-                    <Style TargetType="TextBox">
-                        <Setter Property="Margin" Value="0 -4 0 16" />
-                        <Setter Property="Height" Value="32" />
-                        <Setter Property="FontSize" Value="16" />
-                        <Setter Property="HorizontalAlignment" Value="Left" />
-                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                        <Setter Property="Padding" Value="4 0" />
-                        <Setter Property="Width" Value="320" />
-                    </Style>
-                </ScrollViewer.Resources>
-                <StackPanel HorizontalAlignment="Center" Margin="200 20 80 0" TextBlock.FontSize="16"
-                            TextBox.GotFocus="SettingTextBox_GotFocus">
-                    <TextBlock FontSize="24" Text="生成数量" />
-                    <TextBlock Margin="0 -4 0 8" FontSize="14" Text="每一个标识符由若干个单词组成，每一个单词中又有若干个音节。你可以在这里设置生成的标识符需要包含多少个单词，其中的每一个单词包含多少个音节。" />
-                    <TextBlock Text="最少单词数" />
-                    <TextBox x:Name="FirstFocusableSettingItem" Text="{Binding MinimalWordCount, Mode=TwoWay}" />
-                    <TextBlock Text="最多单词数" />
-                    <TextBox Text="{Binding MaximumWordCount, Mode=TwoWay}" />
-                    <TextBlock Text="单词最少音节数" />
-                    <TextBox Text="{Binding MinimalSyllableCount, Mode=TwoWay}" />
-                    <TextBlock Text="单词最多音节数" />
-                    <TextBox Text="{Binding MaximumSyllableCount, Mode=TwoWay}" />
-                    <TextBlock Text="最少总音节数" />
-                    <TextBox Text="{Binding MinimalTotalSyllableCount, Mode=TwoWay}" />
-                    <TextBlock Text="最多总音节数" />
-                    <TextBox Text="{Binding MaximumTotalSyllableCount, Mode=TwoWay}" />
-                    <TextBlock FontSize="24" Text="单词个数权重" />
-                    <TextBlock Margin="0 -4 0 8" FontSize="14" Text="生成的单词个数是随机的，因此你需要指定生成不同单词数量时的权重。如果你只希望生成一种单词数量，请将其他权重都设成 0。" />
-                    <TextBlock Text="1 个单词" />
-                    <TextBox Text="{Binding Word1Weight, Mode=TwoWay}" />
-                    <TextBlock Text="2 个单词" />
-                    <TextBox Text="{Binding Word2Weight, Mode=TwoWay}" />
-                    <TextBlock Text="3 个单词" />
-                    <TextBox Text="{Binding Word3Weight, Mode=TwoWay}" />
-                    <TextBlock Text="4 个单词" />
-                    <TextBox Text="{Binding Word4Weight, Mode=TwoWay}" />
-                    <TextBlock Text="5 个单词" />
-                    <TextBox Text="{Binding Word5Weight, Mode=TwoWay}" />
-                    <TextBlock FontSize="24" Text="单词内音节数权重" />
-                    <TextBlock Margin="0 -4 0 8" FontSize="14" Text="每个单词中的音节个数是随机的，因此你需要指定生成音节数量时的权重。如果你只希望生成一种音节个数，请将其他权重都设成 0。" />
-                    <TextBlock Text="每单词 1 个音节" />
-                    <TextBox Text="{Binding Syllable1Weight, Mode=TwoWay}" />
-                    <TextBlock Text="每单词 2 个音节" />
-                    <TextBox Text="{Binding Syllable2Weight, Mode=TwoWay}" />
-                    <TextBlock Text="每单词 3 个音节" />
-                    <TextBox Text="{Binding Syllable3Weight, Mode=TwoWay}" />
-                    <TextBlock Text="每单词 4 个音节" />
-                    <TextBox Text="{Binding Syllable4Weight, Mode=TwoWay}" />
-                    <TextBlock Text="每单词 5 个音节" />
-                    <TextBox Text="{Binding Syllable5Weight, Mode=TwoWay}" />
-                    <TextBlock Margin="0 32 0 12" FontSize="16" Foreground="#145587" Text="切换到主页可以保存。" />
-                </StackPanel>
-            </ScrollViewer>
+            <Grid x:Name="SettingPage" Margin="0 48 0 0" IsHitTestVisible="False" IsEnabled="False" Opacity="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ScrollViewer x:Name="SettingScrollViewer">
+                    <ScrollViewer.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Margin" Value="0 8" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                        </Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Margin" Value="0 -4 0 16" />
+                            <Setter Property="Height" Value="32" />
+                            <Setter Property="FontSize" Value="16" />
+                            <Setter Property="HorizontalAlignment" Value="Left" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="4 0" />
+                            <Setter Property="Width" Value="320" />
+                        </Style>
+                    </ScrollViewer.Resources>
+                    <StackPanel HorizontalAlignment="Center" Margin="200 20 80 0" TextBlock.FontSize="16"
+                                TextBox.GotFocus="SettingTextBox_GotFocus" TextBox.LostFocus="SettingTextBox_LostFocus">
+                        <TextBlock FontSize="24" Text="生成数量" />
+                        <TextBlock Margin="0 -4 0 8" FontSize="14" Text="每一个标识符由若干个单词组成，每一个单词中又有若干个音节。你可以在这里设置生成的标识符需要包含多少个单词，其中的每一个单词包含多少个音节。" />
+                        <TextBlock Text="最少单词数" />
+                        <TextBox x:Name="FirstFocusableSettingItem" Text="{Binding MinimalWordCount, Mode=TwoWay}" />
+                        <TextBlock Text="最多单词数" />
+                        <TextBox Text="{Binding MaximumWordCount, Mode=TwoWay}" />
+                        <TextBlock Text="单词最少音节数" />
+                        <TextBox Text="{Binding MinimalSyllableCount, Mode=TwoWay}" />
+                        <TextBlock Text="单词最多音节数" />
+                        <TextBox Text="{Binding MaximumSyllableCount, Mode=TwoWay}" />
+                        <TextBlock Text="最少总音节数" />
+                        <TextBox Text="{Binding MinimalTotalSyllableCount, Mode=TwoWay}" />
+                        <TextBlock Text="最多总音节数" />
+                        <TextBox Text="{Binding MaximumTotalSyllableCount, Mode=TwoWay}" />
+                        <TextBlock FontSize="24" Text="单词个数权重" />
+                        <TextBlock Margin="0 -4 0 8" FontSize="14" Text="生成的单词个数是随机的，因此你需要指定生成不同单词数量时的权重。如果你只希望生成一种单词数量，请将其他权重都设成 0。" />
+                        <TextBlock Text="1 个单词" />
+                        <TextBox Text="{Binding Word1Weight, Mode=TwoWay}" />
+                        <TextBlock Text="2 个单词" />
+                        <TextBox Text="{Binding Word2Weight, Mode=TwoWay}" />
+                        <TextBlock Text="3 个单词" />
+                        <TextBox Text="{Binding Word3Weight, Mode=TwoWay}" />
+                        <TextBlock Text="4 个单词" />
+                        <TextBox Text="{Binding Word4Weight, Mode=TwoWay}" />
+                        <TextBlock Text="5 个单词" />
+                        <TextBox Text="{Binding Word5Weight, Mode=TwoWay}" />
+                        <TextBlock FontSize="24" Text="单词内音节数权重" />
+                        <TextBlock Margin="0 -4 0 8" FontSize="14" Text="每个单词中的音节个数是随机的，因此你需要指定生成音节数量时的权重。如果你只希望生成一种音节个数，请将其他权重都设成 0。" />
+                        <TextBlock Text="每单词 1 个音节" />
+                        <TextBox Text="{Binding Syllable1Weight, Mode=TwoWay}" />
+                        <TextBlock Text="每单词 2 个音节" />
+                        <TextBox Text="{Binding Syllable2Weight, Mode=TwoWay}" />
+                        <TextBlock Text="每单词 3 个音节" />
+                        <TextBox Text="{Binding Syllable3Weight, Mode=TwoWay}" />
+                        <TextBlock Text="每单词 4 个音节" />
+                        <TextBox Text="{Binding Syllable4Weight, Mode=TwoWay}" />
+                        <TextBlock Text="每单词 5 个音节" />
+                        <TextBox Text="{Binding Syllable5Weight, Mode=TwoWay}" />
+                        <TextBlock Margin="0 32 0 12" FontSize="16" Foreground="#145587" Text="切换到主页可以保存。" />
+                    </StackPanel>
+                </ScrollViewer>
+                <Border x:Name="ConfigErrorPanel" Grid.Row="1" Background="#dd5044" Height="32" Visibility="Collapsed">
+                    <TextBlock Foreground="White" VerticalAlignment="Center" FontSize="16" Margin="200 0"
+                               Cursor="Hand"
+                               MouseEnter="ConfigErrorLink_MouseEnter" MouseLeave="ConfigErrorLink_MouseLeave"
+                               MouseLeftButtonDown="HandledElement_MouseDown" MouseLeftButtonUp="ConfigErrorLink_MouseUp">
+                        <Run Text="设定的数值无法生成标识符，因为" /><Run x:Name="ErrorMessageRun" />
+                        <Run Text="全部设为默认值" TextDecorations="Underline" />
+                    </TextBlock>
+                </Border>
+            </Grid>
         </Grid>
         <Grid Grid.Row="1" Grid.RowSpan="2">
         </Grid>

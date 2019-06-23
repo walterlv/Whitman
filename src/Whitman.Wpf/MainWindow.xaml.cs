@@ -110,24 +110,16 @@ namespace Walterlv.Whitman
         {
             IsInSetting = true;
             FirstFocusableSettingItem.Focus();
-            SettingPage.ScrollToTop();
+            SettingScrollViewer.ScrollToTop();
         }
 
         private readonly KeyboardHook _keyboardHook;
-
         private readonly RandomIdentifier _randomIdentifier = new RandomIdentifier();
-
-        private void OnWordOptionChanged(object sender, WordOptionChangedEventArgs e)
-        {
-            UpdateCircles(e.Option.MaxWordCount);
-            Generate(true, false);
-        }
 
         private void UpdateCircles(int count)
         {
             var oldValue = EffectPanel.Children.OfType<MovingCircle>().Count();
             var newValue = count;
-            _randomIdentifier.Configs = (GeneratingConfig)DataContext;
             newValue = newValue <= 0 ? 3 : newValue;
 
             if (newValue < oldValue)
@@ -159,19 +151,10 @@ namespace Walterlv.Whitman
         }
 
         private bool _isInAboutLink;
+        private bool _isInConfigErrorLink;
 
-        private void AboutLink_MouseEnter(object sender, MouseEventArgs e)
-        {
-            if (Mouse.LeftButton != MouseButtonState.Pressed)
-            {
-                _isInAboutLink = true;
-            }
-        }
-
-        private void AboutLink_MouseLeave(object sender, MouseEventArgs e)
-        {
-            _isInAboutLink = false;
-        }
+        private void AboutLink_MouseEnter(object sender, MouseEventArgs e) => _isInAboutLink = Mouse.LeftButton != MouseButtonState.Pressed;
+        private void AboutLink_MouseLeave(object sender, MouseEventArgs e) => _isInAboutLink = false;
 
         private void AboutLink_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -181,16 +164,44 @@ namespace Walterlv.Whitman
             }
         }
 
-        private void HandledElement_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ConfigErrorLink_MouseEnter(object sender, MouseEventArgs e) => _isInConfigErrorLink = Mouse.LeftButton != MouseButtonState.Pressed;
+        private void ConfigErrorLink_MouseLeave(object sender, MouseEventArgs e) => _isInConfigErrorLink = false;
+
+        private void ConfigErrorLink_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            e.Handled = true;
+            if (_isInConfigErrorLink)
+            {
+                DataContext = new GeneratingConfig();
+            }
         }
+
+        private void HandledElement_MouseDown(object sender, MouseButtonEventArgs e) => e.Handled = true;
 
         private void SettingTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (e.Source is TextBox textBox)
             {
                 textBox.SelectAll();
+            }
+        }
+
+        private void SettingTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var config = (GeneratingConfig)DataContext;
+            var reason = config.GetInvalidReason();
+            if (string.IsNullOrWhiteSpace(reason))
+            {
+                ErrorMessageRun.Text = "";
+                ConfigErrorPanel.Visibility = Visibility.Collapsed;
+                _randomIdentifier.Configs = config.Clone();
+                UpdateCircles(config.MinimalWordCount == config.MaximumWordCount
+                    ? config.MinimalWordCount
+                    : 0);
+            }
+            else
+            {
+                ErrorMessageRun.Text = reason;
+                ConfigErrorPanel.Visibility = Visibility.Visible;
             }
         }
     }
