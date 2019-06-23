@@ -170,9 +170,9 @@
                         <TextBlock Margin="0 32 0 12" FontSize="16" Foreground="#145587" Text="切换到主页可以保存。" />
                     </StackPanel>
                 </ScrollViewer>
-                <Border x:Name="ConfigErrorPanel" Grid.Row="1" Background="#dd5044" Height="32" Visibility="Collapsed">
-                    <TextBlock Foreground="White" VerticalAlignment="Center" FontSize="16" Margin="200 0"
-                               Cursor="Hand"
+                <Border x:Name="ConfigErrorPanel" Grid.Row="1" Background="#dd5044" MinHeight="32" Visibility="Collapsed">
+                    <TextBlock Foreground="White" VerticalAlignment="Center" FontSize="16" Margin="200 4 80 4"
+                               Cursor="Hand" TextWrapping="WrapWithOverflow"
                                MouseEnter="ConfigErrorLink_MouseEnter" MouseLeave="ConfigErrorLink_MouseLeave"
                                MouseLeftButtonDown="HandledElement_MouseDown" MouseLeftButtonUp="ConfigErrorLink_MouseUp">
                         <Run Text="设定的数值无法生成标识符，因为" /><Run x:Name="ErrorMessageRun" />

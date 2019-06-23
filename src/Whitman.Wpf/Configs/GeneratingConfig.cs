@@ -31,8 +31,10 @@ namespace Whitman.Configs
         {
             if (MinimalWordCount <= 0 || MaximumWordCount > 5
                 || MinimalSyllableCount <= 0 || MaximumSyllableCount > 5
+                || MinimalTotalSyllableCount <= 0 || MaximumTotalSyllableCount > 25
                 || MinimalWordCount > MaximumWordCount
-                || MinimalSyllableCount > MaximumSyllableCount)
+                || MinimalSyllableCount > MaximumSyllableCount
+                || MinimalTotalSyllableCount > MaximumTotalSyllableCount)
             {
                 return false;
             }
@@ -55,8 +57,11 @@ namespace Whitman.Configs
             if (MaximumWordCount > 5) return $"暂时不支持生成大于 5 个单词。";
             if (MinimalSyllableCount <= 0) return $"每个单词必须至少包含 1 个音节。";
             if (MaximumSyllableCount > 5) return $"暂时不支持每个单词生成大于 5 个音节。";
-            if (MinimalWordCount > MaximumWordCount) return $"生成的单词数量最小值必须小于或等于最大值。";
-            if (MinimalSyllableCount > MaximumSyllableCount) return $"每个单词的音节数量最小值必须小于或等于最大值。";
+            if (MinimalTotalSyllableCount <= 0) return $"生成的单词必须至少包含 1 个音节。";
+            if (MaximumTotalSyllableCount > 25) return $"暂时不支持每个单词生成大于 25 个音节。";
+            if (MinimalWordCount > MaximumWordCount) return $"生成的单词数量最小值必须小于或等于其最大值。";
+            if (MinimalSyllableCount > MaximumSyllableCount) return $"每个单词的音节数量最小值必须小于或等于其最大值。";
+            if (MinimalTotalSyllableCount > MaximumTotalSyllableCount) return $"生成的总音节数最小值必须小于或等于其最大值。";
 
             var minimalTotalSyllableCount = MinimalWordCount * MinimalSyllableCount;
             var maximumTotalSyllableCount = MaximumWordCount * MaximumSyllableCount;
