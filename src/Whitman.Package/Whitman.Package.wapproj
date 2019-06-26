@@ -147,7 +147,13 @@
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Whitman.Wpf\Whitman.Wpf.csproj" />
+    <ProjectReference Include="..\Whitman.Wpf\Whitman.Wpf.csproj">
+      <DesktopBridgeSelfContained>False</DesktopBridgeSelfContained>
+      <DesktopBridgeIdentifier>
+      </DesktopBridgeIdentifier>
+      <Properties>DesktopBridgeSelfContained=%(DesktopBridgeSelfContained);DesktopBridgeIdentifier=%(DesktopBridgeIdentifier)</Properties>
+      <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

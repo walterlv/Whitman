@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationManifest>Properties\App.manifest</ApplicationManifest>
@@ -9,6 +9,7 @@
     <StartupObject>Walterlv.Whitman.Program</StartupObject>
     <AssemblyName>Walterlv.Whitman</AssemblyName>
     <RootNamespace>Walterlv.Whitman</RootNamespace>
+    <PublishReadyToRun>true</PublishReadyToRun>
     <RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
   </PropertyGroup>
   <ItemGroup>
