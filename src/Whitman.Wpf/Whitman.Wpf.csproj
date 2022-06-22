@@ -19,7 +19,7 @@
     <Page Remove="Whitman.Uwp\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <!--<ItemGroup>
     <Resource Include="Microsoft.Toolkit.Wpf.UI.XamlHost" Version="5.0.0" />
